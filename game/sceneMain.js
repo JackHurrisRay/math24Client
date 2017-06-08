@@ -73,6 +73,18 @@ var sceneMain = cc.Scene.extend(
 
             ////////
             //this.setSelfImg("test.jpg");
+            const _wx_data = wx_data;
+            if(_wx_data)
+            {
+                const url = "http://app.huyukongjian.cn/account_wx_img/" + _wx_data.ID.toString();
+                this.setSelfImg(url);
+
+                ////////
+                var _nameLabel = cc.LabelTTF.create(_wx_data.NICKNAME, FONT_NAME.FONT_HEITI, 32);
+                _nameLabel.setPosition(SCREEN_SIZE.WIDTH/2, SCREEN_SIZE.HEIGHT * 0.618 - 180);
+                _back.addChild(_nameLabel);
+
+            }
         },
         setSelfImg:function(url)
         {

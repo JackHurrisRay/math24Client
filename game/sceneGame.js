@@ -281,13 +281,24 @@ var sceneGame = cc.Scene.extend(
                             if( _step_dinex == 3 )
                             {
                                 ////////
-                                //alert('祝贺你赢的本次游戏');
-                                show_common_dialog("胜利","恭喜您赢的本局胜利，触摸屏幕进入下一局",
-                                    function()
-                                    {
-                                        SELF.randStart();
-                                    }
-                                );
+                                if( New_Value == 24 && New_Value_Ex == 1 )
+                                {
+                                    show_common_dialog("胜利","恭喜您赢的本局胜利，触摸屏幕进入下一局",
+                                        function()
+                                        {
+                                            SELF.randStart();
+                                        }
+                                    );
+                                }
+                                else
+                                {
+                                    show_common_dialog("失败","您的计算结果不正确，请重新计算",
+                                        function()
+                                        {
+                                            SELF.mathCtrlSystem.prev();
+                                        }
+                                    );
+                                }
                             }
                         }
 

@@ -2,6 +2,7 @@
  * Created by Jack on 2017/5/3 0022.
  */
 const res_path = "";//"http://5941game.oss-cn-qingdao.aliyuncs.com/yakyuken/";
+var wx_data = null;
 
 const FONT_NAME =
 {
