@@ -7,15 +7,15 @@ const KEY_CTRL_OPERATOR = "CTRL_OPERATOR";
 
 var sceneGame = cc.Scene.extend(
     {
-        size:cc.director.getWinSize(),
         mathCtrlSystem:new math24Controller(),
-
         CHOOSE_NUMBER:null,
         CHOOSE_OPERATOR:null,
         ctor:function()
         {
             var SELF = this;
             this._super();
+
+            const size = cc.director.getWinSize();
 
             ////////
             var _sceneLayer = cc.LayerColor.create();
@@ -24,7 +24,7 @@ var sceneGame = cc.Scene.extend(
 
             var _frame_back = cc.spriteFrameCache.getSpriteFrame("back2.png")
             var _back = cc.Sprite.createWithSpriteFrame(_frame_back);
-            _back.setPosition(this.size.width/2, this.size.height/2);
+            _back.setPosition(size.width/2, size.height/2);
             _sceneLayer.addChild(_back);
 
             ////////

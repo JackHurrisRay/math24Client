@@ -6,11 +6,11 @@ var commonDlg =
     cc.Layer.extend(
     {
         ////
-        size:cc.director.getWinSize(),
         ctor: function () {
 
             ////
             var SELF = this;
+            const size = cc.director.getWinSize();
 
             ////
             this._super();
@@ -31,7 +31,7 @@ var commonDlg =
 
             var _frame_background = cc.spriteFrameCache.getSpriteFrame("common_dlg.png");
             this.BACK_GROUND.initWithSpriteFrame(_frame_background);
-            this.BACK_GROUND.setPosition(this.size.width / 2, this.size.height / 2);
+            this.BACK_GROUND.setPosition(size.width / 2, size.height / 2);
 
             this.addChild(this.BACK_GROUND);
 
@@ -76,12 +76,13 @@ var commonDlg =
 
 var waitDlg = cc.Sprite.extend(
     {
-        size:cc.director.getWinSize(),
         ctor:function()
         {
+            const size = cc.director.getWinSize();
+
             this._super();
             this.initWithFile(res_common.COMMON_BACK);
-            this.setPosition(this.size.width/2, this.size.height/2);
+            this.setPosition(size.width/2, size.height/2);
 
             var _label = cc.LabelTTF.create("Wait...", FONT_NAME.FONT_HEITI, 32);
             _label.setPosition(SCREEN_SIZE.WIDTH/2, SCREEN_SIZE.HEIGHT/2);

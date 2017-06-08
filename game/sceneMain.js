@@ -4,10 +4,11 @@
 
 var sceneMain = cc.Scene.extend(
     {
-        size:cc.director.getWinSize(),
         ctor:function()
         {
             this._super();
+
+            const size = cc.director.getWinSize();
 
             var _sceneLayer = cc.LayerColor.create(/*cc.color(255,0,0)*/);
             _sceneLayer.setColor(cc.color(GET_RAND(75) + 155,GET_RAND(75),GET_RAND(75)));
@@ -16,7 +17,7 @@ var sceneMain = cc.Scene.extend(
             ////////
             var _frame_back = cc.spriteFrameCache.getSpriteFrame("back1.png")
             var _back = cc.Sprite.createWithSpriteFrame(_frame_back);
-            _back.setPosition(this.size.width/2, this.size.height/2);
+            _back.setPosition(size.width/2, size.height/2);
             _sceneLayer.addChild(_back);
 
             ////////
