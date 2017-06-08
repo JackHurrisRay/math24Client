@@ -39,14 +39,15 @@ const res_javascript =
         "http://5941game.oss-cn-qingdao.aliyuncs.com/common/base64.js",
 
         ////
+        "game/Math24.js",
         "game/mathCtrl.js",
-        "game/uiTouchSprite.js",
-        "game/uiMathCtrSprite.js",
 
         ////
         "game/option.js",
-        "game/Math24.js",
 
+        "game/commonDlg.js",
+        "game/uiTouchSprite.js",
+        "game/uiMathCtrSprite.js",
         "game/sceneMain.js",
         "game/sceneGame.js"
 
