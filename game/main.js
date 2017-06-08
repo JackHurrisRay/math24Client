@@ -1,12 +1,15 @@
 /**
  * Created by Jack on 2017/3/25.
  */
-/*
+
 function game_init()
 {
-    cc._commonDialog = new commonDlg(function(){cc._commonDialog.close();});
+    cc.spriteFrameCache.addSpriteFrames(res_pix.PIX_PLIST, res_pix.PIX_PNG);
+
+    cc._commonDialog = new commonDlg();
     cc._NoticeficationNode.addChild(cc._commonDialog);
 
+    /*
     cc._commonDialogConfirm = new commonDlgConfirm();
     cc._NoticeficationNode.addChild(cc._commonDialogConfirm);
 
@@ -19,8 +22,10 @@ function game_init()
     _labelPing.setAnchorPoint(0.0, 0.0);
     cc._NoticeficationNode.addChild(_labelPing);
     cc._LabelPing = _labelPing;
+    */
 };
 
+/*
 function setPing(ping)
 {
     var _value = ping;
@@ -46,12 +51,6 @@ function setPing(ping)
     cc._LabelPing.setString("PIN:" + _value.toString());
 }
 
-function show_common_dialog(title, info)
-{
-    cc._commonDialog.setInfo(title, info);
-    cc._commonDialog.show();
-};
-
 function show_confirm_dialog(title, info, callback)
 {
     cc._commonDialogConfirm.setInfo(title, info);
@@ -64,6 +63,12 @@ function show_option_dialog()
     cc._optionDialog.show();
 }
 */
+
+function show_common_dialog(title, info, callback)
+{
+    cc._commonDialog.setInfo(title, info, callback);
+    cc._commonDialog.show();
+};
 
 function TDRecord(data)
 {
@@ -166,7 +171,7 @@ window.onload = function(){
         cc.LoaderScene.preload(gResource, function () {
 
             //game init
-            //game_init();
+            game_init();
             initShader();
 
             //game start

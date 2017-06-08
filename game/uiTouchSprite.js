@@ -54,6 +54,12 @@ var uiTouchSprite = cc.Sprite.extend(
             this.setTarget(target);
             var SELF = this;
 
+            SELF.setSwallowTouches =
+                function(set)
+                {
+                    SELF._listener.swallowTouches = set;
+                };
+
             ////
             this._listener = cc.EventListener.create(
                 {

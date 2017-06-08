@@ -19,16 +19,42 @@ var sceneGame = cc.Scene.extend(
 
             ////////
             var _sceneLayer = cc.LayerColor.create();
-            _sceneLayer.setColor(cc.color(GET_RAND(155),GET_RAND(155),GET_RAND(155) + 100));
+            _sceneLayer.setColor(cc.color(GET_RAND(75),GET_RAND(75),GET_RAND(75) + 55));
             this.addChild(_sceneLayer);
 
+            var _frame_back = cc.spriteFrameCache.getSpriteFrame("back2.png")
+            var _back = cc.Sprite.createWithSpriteFrame(_frame_back);
+            _back.setPosition(this.size.width/2, this.size.height/2);
+            _sceneLayer.addChild(_back);
+
+            ////////
+            var _frameBack =
+                [
+                    cc.spriteFrameCache.getSpriteFrame("button_back.png"),
+                    cc.spriteFrameCache.getSpriteFrame("button_back_select.png"),
+                ];
+
+            var _button_back = new uiTouchFrameSprite(_frameBack[0], _frameBack[1],
+                function(target)
+                {
+                    var scene = new sceneMain();
+                    var _trans = new cc.TransitionFadeBL(1, scene);//new cc.TransitionCrossFade(1, scene);
+                    cc.director.runScene(_trans);
+                }
+            );
+
+            _button_back.setAnchorPoint(1.0, 1.0);
+            _button_back.setPosition(cc.p(SCREEN_SIZE.WIDTH, SCREEN_SIZE.HEIGHT));
+            _back.addChild(_button_back);
+
+            ////////
             var _nodeCtrl = cc.Node.create();
             _nodeCtrl.setPosition(SCREEN_SIZE.WIDTH/2, SCREEN_SIZE.HEIGHT/2 + 128);
-            _sceneLayer.addChild(_nodeCtrl);
+            _back.addChild(_nodeCtrl);
 
             var _nodeOperator = cc.Node.create();
             _nodeOperator.setPosition(SCREEN_SIZE.WIDTH/2, SCREEN_SIZE.HEIGHT/2 - 128);
-            _sceneLayer.addChild(_nodeOperator);
+            _back.addChild(_nodeOperator);
 
             ////////
             var _frameCtrl =
@@ -89,7 +115,7 @@ var sceneGame = cc.Scene.extend(
                 {
                     if( target.SELECT )
                     {
-                        if( SELF.CHOOSE_OPERATOR == null )
+                        if( SELF.CHOOSE_OPERATOR == null || SELF.CHOOSE_NUMBER == null )
                         {
                             SELF.CHOOSE_NUMBER = target;
                         }
@@ -255,20 +281,26 @@ var sceneGame = cc.Scene.extend(
                             if( _step_dinex == 3 )
                             {
                                 ////////
-                                alert('祝贺你赢的本次游戏');
-
-                                setTimeout(
+                                //alert('祝贺你赢的本次游戏');
+                                show_common_dialog("胜利","恭喜您赢的本局胜利，触摸屏幕进入下一局",
                                     function()
                                     {
                                         SELF.randStart();
-                                    },
-                                    1000
+                                    }
                                 );
                             }
                         }
 
                         UIMATCHCTRL_GROUP_CLEAR(KEY_CTRL_OPERATOR);
                         SELF.CHOOSE_OPERATOR = null;
+                    }
+                    else
+                    {
+                        if( target == SELF.CHOOSE_NUMBER )
+                        {
+                            UIMATCHCTRL_GROUP_CLEAR(KEY_CTRL_OPERATOR);
+                            SELF.CHOOSE_OPERATOR = null;
+                        }
                     }
                 };
 

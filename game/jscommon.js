@@ -144,32 +144,32 @@ function FitString(str, length)
 
 
 ////////
-function loadImgFromUrl(target, imgUrl, p, dessize, tag, shader) {
-    if(!imgUrl)return;
+function loadImgFromUrl(target, imgUrl, dessize, shader) {
+
     var self = target;
-    var loadCb = function(err, img){
-        if(err) return;
-        cc.textureCache.addImage(imgUrl);
-        var texture2d = new cc.Texture2D();
-        texture2d.initWithElement(img);
-        texture2d.handleLoadedTexture();
-        var sp = new cc.Sprite();
-        sp.initWithTexture(texture2d);
-        self.addChild(sp);
-        sp.x = p.x;
-        sp.y = p.y;
-        sp.tag = tag;
 
-        const _flag_w = dessize.w / sp.getContentSize().width;
-        const _flag_h = dessize.h / sp.getContentSize().height;
+    var loadCb =
+        function(err, img){
 
-        sp.setScale(_flag_w, _flag_h);
-        if( shader != null )
-        {
-            sp.setShaderProgram( shader );
-        }
-    };
-    cc.loader.loadImg(imgUrl, {isCrossOrigin:false }, loadCb);
+            if(err) return;
+            cc.textureCache.addImage(imgUrl);
+            var texture2d = new cc.Texture2D();
+            texture2d.initWithElement(img);
+            texture2d.handleLoadedTexture();
+
+            self.initWithTexture(texture2d);
+
+            const _flag_w = dessize.w / self.getContentSize().width;
+            const _flag_h = dessize.h / self.getContentSize().height;
+
+            self.setScale(_flag_w, _flag_h);
+            if( shader != null )
+            {
+                self.setShaderProgram( shader );
+            }
+        };
+
+    cc.loader.loadImg(imgUrl, {isCrossOrigin:true }, loadCb);
 };
 
 function extendDeep(parent, child) {
