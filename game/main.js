@@ -9,6 +9,9 @@ function game_init()
     cc._commonDialog = new commonDlg();
     cc._NoticeficationNode.addChild(cc._commonDialog);
 
+    cc._commonConfirmDlg = new commonConfirmDlg();
+    cc._NoticeficationNode.addChild(cc._commonConfirmDlg);
+
     /*
     cc._commonDialogConfirm = new commonDlgConfirm();
     cc._NoticeficationNode.addChild(cc._commonDialogConfirm);
@@ -68,6 +71,12 @@ function show_common_dialog(title, info, callback)
 {
     cc._commonDialog.setInfo(title, info, callback);
     cc._commonDialog.show();
+};
+
+function show_confirm_dialog(title, info, callback)
+{
+    cc._commonConfirmDlg.setInfo(title, info, callback);
+    cc._commonConfirmDlg.show();
 };
 
 function TDRecord(data)

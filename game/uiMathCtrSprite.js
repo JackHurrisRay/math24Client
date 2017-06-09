@@ -42,6 +42,17 @@ var uiMathCtrSprite = cc.Sprite.extend(
         SELECT:false,
         GROUP:null,
         LABEL:null,
+        MUTEX:false,
+        lock:function()
+        {
+            this.MUTEX = true;
+            UI_TOUCH_MUTEX = true;
+        },
+        unlock:function()
+        {
+            this.MUTEX = false;
+            UI_TOUCH_MUTEX = false;
+        },
         ctor:function(frame_normal, frame_select, callback_touch)
         {
             this._super();
@@ -57,8 +68,15 @@ var uiMathCtrSprite = cc.Sprite.extend(
                 {
                     event:cc.EventListener.TOUCH_ONE_BY_ONE,
                     swallowTouches:true,
-                    onTouchBegan:function(touch, event) {
-                        if (!CHECK_VISIBLE(SELF)) {
+                    onTouchBegan:function(touch, event)
+                    {
+                        if(!SELF.MUTEX&&UI_TOUCH_MUTEX)
+                        {
+                            return false;
+                        }
+
+                        if (!CHECK_VISIBLE(SELF))
+                        {
                             return false;
                         }
 
@@ -160,6 +178,8 @@ var uiMathCtrSprite = cc.Sprite.extend(
             const _size = this.getContentSize();
             this.LABEL.setPosition(_size.width/2, _size.height/2);
             this.addChild(this.LABEL);
+
+            return this.LABEL;
         },
         setText:function(text)
         {

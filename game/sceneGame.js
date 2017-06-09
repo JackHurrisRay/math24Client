@@ -48,13 +48,22 @@ var sceneGame = cc.Scene.extend(
             _back.addChild(_button_back);
 
             ////////
+            this.UI_NODE = cc.Node.create();
+            this.UI_NODE.setPosition(SCREEN_SIZE.WIDTH/2, SCREEN_SIZE.HEIGHT/2);
+            _back.addChild(this.UI_NODE);
+            this.UI_NODE.setScale(1.00);
+
             var _nodeCtrl = cc.Node.create();
-            _nodeCtrl.setPosition(SCREEN_SIZE.WIDTH/2, SCREEN_SIZE.HEIGHT/2 + 128);
-            _back.addChild(_nodeCtrl);
+            _nodeCtrl.setPosition(0, 128);
+            this.UI_NODE.addChild(_nodeCtrl);
 
             var _nodeOperator = cc.Node.create();
-            _nodeOperator.setPosition(SCREEN_SIZE.WIDTH/2, SCREEN_SIZE.HEIGHT/2 - 128);
-            _back.addChild(_nodeOperator);
+            _nodeOperator.setPosition(0, - 128);
+            this.UI_NODE.addChild(_nodeOperator);
+
+            var _nodeEx       = cc.Node.create();
+            _nodeEx.setPosition(0, -256);
+            this.UI_NODE.addChild(_nodeEx);
 
             ////////
             var _frameCtrl =
@@ -330,7 +339,9 @@ var sceneGame = cc.Scene.extend(
 
             for( var i in this.CTRL_NUMBER )
             {
-                this.CTRL_NUMBER[i].setLabel("",FONT_NAME.FONT_THONBURI, 72);
+                var _label = this.CTRL_NUMBER[i].setLabel("",FONT_NAME.FONT_THONBURI, 72);
+                _label.setScale(1.8);
+
                 this.CTRL_NUMBER[i].addGroup(KEY_CTRL_NUMBER);
                 this.CTRL_NUMBER[i].setCallback(callback_number);
                 this.CTRL_NUMBER[i].INDEX = parseInt(i);
@@ -388,6 +399,45 @@ var sceneGame = cc.Scene.extend(
 
                 _nodeOperator.addChild(this.CTRL_OPERATOR[i]);
             }
+
+            ////////
+            var frame_help =
+                [
+                    cc.spriteFrameCache.getSpriteFrame("button_common_1.png"),
+                    cc.spriteFrameCache.getSpriteFrame("button_common_1_select.png")
+                ];
+
+            var button_Help = new uiTouchFrameSprite(
+                frame_help[0],frame_help[1],
+                function(target)
+                {
+                    show_confirm_dialog("","",
+                        function()
+                        {
+                            ////////
+
+                        }
+                    );
+                }
+            );
+
+            button_Help.setAnchorPoint(0.0, 0.5);
+            button_Help.setScale(0.5);
+            button_Help.setPosition(cc.p(-128-64-10, 8));
+            _nodeEx.addChild(button_Help);
+
+            const _buttonHelpSize = button_Help.getContentSize();
+
+            var _frameLight = cc.spriteFrameCache.getSpriteFrame("icon_light.png");
+            var sptLight = cc.Sprite.createWithSpriteFrame(_frameLight);
+            sptLight.setAnchorPoint(0.0, 0.5);
+            sptLight.setPosition(cc.p(16.0, _buttonHelpSize.height/2));
+            button_Help.addChild(sptLight);
+
+            var _labelHelp = cc.LabelTTF.create("参考答案", FONT_NAME.FONT_SKETCHFLOW_PRINT, 64);
+            _labelHelp.setAnchorPoint(0.0, 0.5);
+            _labelHelp.setPosition(cc.p(16.0 + 128, _buttonHelpSize.height/2));
+            button_Help.addChild(_labelHelp);
 
             ////////
             this.randStart();

@@ -75,6 +75,11 @@ var uiTouchSprite = cc.Sprite.extend(
                             return false;
                         }
 
+                        if( !UI_TOUCH_END_SWITCH )
+                        {
+                            return false;
+                        }
+
                         var target = event.getCurrentTarget();
 
                         if( !CHECK_VISIBLE(target) )
@@ -89,15 +94,7 @@ var uiTouchSprite = cc.Sprite.extend(
                         }
                         else
                         {
-                            if( !UI_TOUCH_END_SWITCH )
-                            {
-                                return false;
-                            }
-
                             var touchPos = touch.getLocation();
-                            //touchPos.x = touchPos.x / 2.0;
-                            //touchPos.y = touchPos.y * SCREEN_SIZE.HEIGHT / 360;
-
                             var locationInNode = target.convertToNodeSpace(touchPos);
 
                             var s = target.getContentSize();
@@ -126,13 +123,12 @@ var uiTouchSprite = cc.Sprite.extend(
 
                             ////
                             var touchPos = touch.getLocation();
-                            //touchPos.x = touchPos.x / 2.0;
-                            //touchPos.y = touchPos.y * SCREEN_SIZE.HEIGHT / 360;
 
                             var locationInNode = target.convertToNodeSpace(touchPos);
                             var s = target.getContentSize();
                             var rect = cc.rect(0, 0, s.width, s.height);
-                            if (cc.rectContainsPoint(rect, locationInNode) && UI_TOUCH_END_SWITCH) {
+                            if(cc.rectContainsPoint(rect, locationInNode))
+                            {
                                 optionSys.getInstance().playSound(SELF.TOUCH_SOUND);
                                 this._funcEnd(touch, event, target.TARGET);
                             }
@@ -175,6 +171,17 @@ var uiTouchFrameSprite = cc.Sprite.extend(
         FRAME_NORMAL:null,
         FRAME_SELECT:null,
         GROUP:null,
+        MUTEX:false,
+        lock:function()
+        {
+            this.MUTEX = true;
+            UI_TOUCH_MUTEX = true;
+        },
+        unlock:function()
+        {
+            this.MUTEX = false;
+            UI_TOUCH_MUTEX = false;
+        },
         ctor:function(frame_normal, frame_select, callback_touch)
         {
             this._super();
@@ -190,8 +197,15 @@ var uiTouchFrameSprite = cc.Sprite.extend(
                 {
                     event:cc.EventListener.TOUCH_ONE_BY_ONE,
                     swallowTouches:true,
-                    onTouchBegan:function(touch, event) {
-                        if (!CHECK_VISIBLE(SELF)) {
+                    onTouchBegan:function(touch, event)
+                    {
+                        if(!SELF.MUTEX&&UI_TOUCH_MUTEX)
+                        {
+                            return false;
+                        }
+
+                        if (!CHECK_VISIBLE(SELF))
+                        {
                             return false;
                         }
 
@@ -208,7 +222,26 @@ var uiTouchFrameSprite = cc.Sprite.extend(
                         return false;
                     },
                     onTouchMoved:function(touch, event){
+                        ////
+                        var touchPos = touch.getLocation();
 
+                        var locationInNode = SELF.convertToNodeSpace(touchPos);
+                        var s = SELF.getContentSize();
+                        var rect = cc.rect(0, 0, s.width, s.height);
+                        if(cc.rectContainsPoint(rect, locationInNode))
+                        {
+                            if( !SELF.SELECT )
+                            {
+                                SELF.setSelect(true);
+                            }
+                        }
+                        else
+                        {
+                            if( SELF.SELECT )
+                            {
+                                SELF.setSelect(false);
+                            }
+                        }
                     },
                     onTouchEnded:function(touch, event){
                         ////
@@ -217,7 +250,8 @@ var uiTouchFrameSprite = cc.Sprite.extend(
                         var locationInNode = SELF.convertToNodeSpace(touchPos);
                         var s = SELF.getContentSize();
                         var rect = cc.rect(0, 0, s.width, s.height);
-                        if (cc.rectContainsPoint(rect, locationInNode) && UI_TOUCH_END_SWITCH) {
+                        if(cc.rectContainsPoint(rect, locationInNode))
+                        {
                             optionSys.getInstance().playSound(SELF.TOUCH_SOUND);
 
                             SELF.setSelect(false);
