@@ -72,7 +72,6 @@ var sceneMain = cc.Scene.extend(
             _back.addChild(_sptAround);
 
             ////////
-            //this.setSelfImg("test.jpg");
             const _wx_data = wx_data;
             if(_wx_data)
             {
@@ -85,6 +84,8 @@ var sceneMain = cc.Scene.extend(
                 _back.addChild(_nameLabel);
 
             }
+
+
         },
         setSelfImg:function(url)
         {
