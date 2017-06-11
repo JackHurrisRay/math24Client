@@ -429,11 +429,11 @@ var sceneGame = cc.Scene.extend(
                 frame_help[0],frame_help[1],
                 function(target)
                 {
-                    show_confirm_dialog("","",
+                    show_confirm_dialog("参考答案","您要查询参考答案需要花费1个智慧星哟",
                         function()
                         {
                             ////////
-
+                            show_common_dialog("参考答案",this.QUESTION_CURRENT.result);
                         }
                     );
                 }
@@ -458,6 +458,24 @@ var sceneGame = cc.Scene.extend(
             button_Help.addChild(_labelHelp);
 
             ////////
+            var _backAroundInfo = cc.Sprite.createWithSpriteFrame(_frameCtrl[2]);
+            _backAroundInfo.setAnchorPoint(0, 1);
+            _backAroundInfo.setScale(0.5);
+            _backAroundInfo.setPosition(380, SCREEN_SIZE.HEIGHT - 4);
+            this.addChild(_backAroundInfo);
+
+            var labelAround = cc.LabelTTF.create("0/0",FONT_NAME.FONT_HEITI,72);
+            labelAround.setScale(1.25);
+            labelAround.setPosition(128,128);
+            _backAroundInfo.addChild(labelAround);
+
+            this.SET_AROUND =
+                function(cur, max)
+                {
+                    labelAround.setString(cur.toString() + "/" + max.toString());
+                }
+
+            ////////
             //this.randStart();
             this.nextQuestion();
         },
@@ -473,6 +491,8 @@ var sceneGame = cc.Scene.extend(
             var _data = this.QUESTION_CURRENT;
 
             this.start(_data.parament[0], _data.parament[1], _data.parament[2], _data.parament[3]);
+
+            this.SET_AROUND(this.QUESTION_INDEX, PlayerData.QUESTIONS.length);
         },
         randStart:function()
         {
