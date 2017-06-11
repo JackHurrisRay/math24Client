@@ -157,6 +157,8 @@ function request_GameNormal(callback)
 ////////
 function loginInit()
 {
+    show_wait();
+
     if( wx_data ) {
         request_Login(wx_data.login_id, wx_data.login_pwd,
             function (res) {
@@ -186,10 +188,12 @@ function loginInit()
                                 {
                                     if(data.status == 0)
                                     {
+                                        close_wait();
                                         show_common_dialog("登录成功", "欢迎来到极速24点游戏，在这里尽情地开发您的大脑吧");
                                     }
                                     else
                                     {
+                                        close_wait();
                                         show_common_dialog("登录失败", "请您检查手机是否正确连上了网络");
                                     }
                                 }
@@ -199,6 +203,7 @@ function loginInit()
                 }
                 else
                 {
+                    close_wait();
                     show_common_dialog("登录失败", "请您检查您的手机正确连上了网络");
                 }
 
@@ -208,5 +213,5 @@ function loginInit()
     }
 }
 
-loginInit();
+
 

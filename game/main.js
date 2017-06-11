@@ -59,6 +59,9 @@ function game_init()
     cc._commonConfirmDlg = new commonConfirmDlg();
     cc._NoticeficationNode.addChild(cc._commonConfirmDlg);
 
+    cc._commonWaitDlg = new waitDlg;
+    cc._NoticeficationNode.addChild(cc._commonWaitDlg);
+
 };
 
 
@@ -73,6 +76,16 @@ function show_confirm_dialog(title, info, callback)
     cc._commonConfirmDlg.setInfo(title, info, callback);
     cc._commonConfirmDlg.show();
 };
+
+function show_wait()
+{
+    cc._commonWaitDlg.show();
+}
+
+function close_wait()
+{
+    cc._commonWaitDlg.close();
+}
 
 function TDRecord(data)
 {
@@ -182,7 +195,7 @@ window.onload = function(){
             cc.director.runScene(new sceneMain());
 
             ////////
-
+            loginInit();
 
             return;
         }, this);

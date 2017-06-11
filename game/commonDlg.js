@@ -15,23 +15,20 @@ var commonDlg =
             ////
             this._super();
 
-            this.BACK_GROUND = new uiTouchSprite(
-                function(touch, event)
+            var _frame_background = cc.spriteFrameCache.getSpriteFrame("common_dlg.png");
+
+            this.BACK_GROUND = new uiTouchFrameSprite(_frame_background, _frame_background,
+                function(target)
                 {
+                    SELF.close();
+
                     if(SELF._callback)
                     {
                         SELF._callback();
                         SELF._callback = null;
                     }
-
-                    SELF.close();
                 }
             );
-
-            this.BACK_GROUND.setSwallowTouches(true);
-
-            var _frame_background = cc.spriteFrameCache.getSpriteFrame("common_dlg.png");
-            this.BACK_GROUND.initWithSpriteFrame(_frame_background);
             this.BACK_GROUND.setPosition(size.width / 2, size.height / 2);
 
             this.addChild(this.BACK_GROUND);
@@ -137,13 +134,13 @@ var commonConfirmDlg =
                     new uiTouchFrameSprite(_frameButton[0], _frameButton[1],
                         function(target)
                         {
+                            SELF.close();
+
                             if( SELF._callback )
                             {
                                 SELF._callback(target);
                                 SELF._callback = null;
                             }
-
-                            SELF.close();
                         }
                     );
 
@@ -197,43 +194,51 @@ var waitDlg = cc.LayerColor.extend(
 
             this._super();
             this.setColor(0,0,0);
-            this.setPosition(size.width/2, size.height/2);
+            this.setOpacity(75);
 
-            var _label = cc.LabelTTF.create("Wait...", FONT_NAME.FONT_HEITI, 32);
-            _label.setPosition(SCREEN_SIZE.WIDTH/2, SCREEN_SIZE.HEIGHT/2);
+            var _label = cc.LabelTTF.create("Wait...", FONT_NAME.FONT_THONBURI, 32);
+            _label.setAnchorPoint(0,0.5);
+            _label.setPosition(size.width/2 - 32, size.height/2);
             this.addChild(_label);
 
             this.setVisible(false);
 
-            this._listener = cc.EventListener.create(
-                {
-                    event:cc.EventListener.TOUCH_ONE_BY_ONE,
-                    swallowTouches:true,
-                    onTouchBegan:function(touch, event) {
-                        if (!CHECK_VISIBLE(SELF)) {
-                            return false;
-                        }
+            this.TIMER = new GameTimer();
 
-                        return true;
-                    },
-                    onTouchMoved:function(touch, event){
-                    },
-                    onTouchEnded:function(touch, event){
-                    },
-                    onTouchCancel:function(touch, event){
+            var animIndex = 0;
+            const labelString =
+                [
+                    "Wait.",
+                    "Wait..",
+                    "Wait...",
+                    "Wait....",
+                    "Wait.....",
+                    "Wait......",
+                ];
+
+            this.TIMER.init(1000.0 / 2.0,
+                function()
+                {
+                    _label.setString(labelString[animIndex]);
+                    animIndex += 1;
+
+                    if( animIndex >= labelString.length )
+                    {
+                        animIndex = 0;
                     }
                 }
             );
+
         },
         show:function()
         {
-            cc.eventManager.addListener(this._listener, this);
+            UI_TOUCH_MUTEX = true;
             this.setVisible(true);
         },
         close:function()
         {
             this.setVisible(false);
-            cc.eventManager.removeListener(this._listener);
+            UI_TOUCH_MUTEX = false;
         }
     }
 );

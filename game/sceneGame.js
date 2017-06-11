@@ -433,7 +433,7 @@ var sceneGame = cc.Scene.extend(
                         function()
                         {
                             ////////
-                            show_common_dialog("参考答案",this.QUESTION_CURRENT.result);
+                            show_common_dialog("参考答案",SELF.QUESTION_CURRENT.result);
                         }
                     );
                 }

@@ -32,9 +32,11 @@ var sceneMain = cc.Scene.extend(
                 null,null,
                 function(touch,event)
                 {
+                    show_wait();
                     request_GameNormal(
                         function(data)
                         {
+                            close_wait();
                             if( data.status == 0 )
                             {
                                 PlayerData.QUESTIONS = [];
@@ -99,8 +101,6 @@ var sceneMain = cc.Scene.extend(
                 _back.addChild(_nameLabel);
 
             }
-
-
         },
         setSelfImg:function(url)
         {
