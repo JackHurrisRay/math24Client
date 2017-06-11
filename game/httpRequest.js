@@ -192,9 +192,54 @@ function loginInit()
                 );
             }
         );
+
+
+        request_Login(wx_data.login_id, wx_data.login_pwd,
+            function(res)
+            {
+                if( res && ( res.error_code == 0 || res.error_code == 210 ) )
+                {
+                    //success
+                    request_Content(
+                        function(data)
+                        {
+                            request_LoginGame(wx_data.ID,
+                                function(data)
+                                {
+                                    if(data.status == 0)
+                                    {
+
+                                        PlayerData.GOLD = data.GOLD;
+                                        PlayerData.GOLD_MAX = data.GOLD_MAX;
+                                        PlayerData.refreshGoldUI();
+
+                                        close_wait();
+                                        show_common_dialog("登录成功", "欢迎来到极速24点游戏，在这里尽情地开发您的大脑吧");
+                                    }
+                                    else
+                                    {
+                                        close_wait();
+                                        show_common_dialog("登录失败", "请您检查手机是否正确连上了网络");
+                                    }
+                                }
+                            );
+                        }
+                    );
+                }
+                else
+                {
+                    close_wait();
+                    show_common_dialog("登录失败", "请您检查您的手机正确连上了网络");
+                }
+
+                return;
+            }
+        );
+
     }
     else
     {
+        /*
         request_Login("18302079187", "password",
             function(res)
             {
@@ -236,6 +281,8 @@ function loginInit()
                 return;
             }
         );
+        */
+
     }
 }
 

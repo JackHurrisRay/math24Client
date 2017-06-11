@@ -13,6 +13,12 @@ var sceneGame = cc.Scene.extend(
         QUESTION_INDEX:0,
         QUESTION_CURRENT:null,
         ANSWER_CURRENT:null,
+        TIMER:new GameTimer(),
+        START_TIME:new Date(),
+        TOTAL_TIME:0,
+        GAME_RECORD:[],
+        AROUND_START:new Date(),
+        GAME_END:false,
         ctor:function()
         {
             var SELF = this;
@@ -295,6 +301,12 @@ var sceneGame = cc.Scene.extend(
                                 ////////
                                 if( New_Value == 24 && New_Value_Ex == 1 )
                                 {
+                                    ////////
+                                    //record player status
+                                    var _RESULT_RECORD = {last: (new Date()).getTime() - SELF.AROUND_START.getTime()};
+                                    SELF.GAME_RECORD.push(_RESULT_RECORD);
+
+                                    ////////
                                     if(SELF.QUESTION_INDEX < PlayerData.QUESTIONS.length )
                                     {
                                         show_common_dialog("胜利","恭喜您赢的本局胜利，触摸屏幕进入下一局",
@@ -307,12 +319,17 @@ var sceneGame = cc.Scene.extend(
                                     }
                                     else
                                     {
-                                        show_common_dialog("训练结束","恭喜您完成了训练，休息一下吧",
+                                        SELF.GAME_END = true;
+                                        var _resultNode = SELF.showResult();
+
+                                        show_common_dialog("训练结束","恭喜您完成了训练，休息一下吧，看看自己训练的结果，离算术天才还有多远呢",
                                             function()
                                             {
                                                 var scene = new sceneMain();
                                                 var _trans = new cc.TransitionFadeBL(1, scene);//new cc.TransitionCrossFade(1, scene);
                                                 cc.director.runScene(_trans);
+
+                                                _resultNode.removeFromParent(true);
                                             }
                                         );
                                     }
@@ -513,8 +530,159 @@ var sceneGame = cc.Scene.extend(
                 }
 
             ////////
+            //timer
+            var labelTimer = cc.LabelTTF.create("00:00:00", FONT_NAME.FONT_HEITI, 32);
+            labelTimer.textAlign = cc.TEXT_ALIGNMENT_LEFT;
+            labelTimer.setAnchorPoint(0,1.0);
+            labelTimer.setPosition(16, size.height - 140);
+            this.addChild(labelTimer);
+
+            setTimeout(
+                function()
+                {
+                    if(SELF.GAME_END)
+                    {
+                        return;
+                    }
+
+                    SELF.START_TIME = new Date();
+                    SELF.TIMER.init(
+                        100,
+                        function()
+                        {
+                            const startTime = SELF.START_TIME.getTime();
+
+                            SELF.TOTAL_TIME = (new Date()).getTime() - startTime;
+                            const lastTime = SELF.TOTAL_TIME/1000;
+
+                            var h = Math.floor( lastTime / 3600 );
+                            var m = Math.floor( (lastTime - h*3600)/60 );
+                            var s = Math.floor( (lastTime - h*3600 - m*60) );
+
+                            var sh = (h<10)?"0"+ h.toString(): h.toString();
+                            var sm = (m<10)?"0"+ m.toString(): m.toString();
+                            var ss = (s<10)?"0"+ s.toString(): s.toString();
+
+                            labelTimer.setString(sh + ":" + sm + ":" + ss);
+                        }
+                    );
+                },
+                1000
+            );
+
+            ////////
+            var resultNode = cc.Node.create();
+            resultNode.setPosition(size.width/2, size.height/2);
+            resultNode.setVisible(false);
+            cc._NoticeficationNode.addChild(resultNode);
+
+            var resultArray = [];
+
+            var _result1 = cc.LabelTTF.create("总耗时:",FONT_NAME.FONT_HEITI, 32);
+            _result1.setColor(cc.color(255,255,100));
+            _result1.textAlign = cc.TEXT_ALIGNMENT_LEFT;
+            _result1.setAnchorPoint(0, 1.0);
+            _result1.setPosition(-128, -64);
+            resultArray.push(_result1);
+            resultNode.addChild(_result1);
+
+            const resultTitle = ["平均值:","采样值:","方差值:","均方差:"];
+
+            for( var i=0; i<4; i++ )
+            {
+                var _result = cc.LabelTTF.create(resultTitle[i],FONT_NAME.FONT_HEITI, 32);
+                _result.textAlign = cc.TEXT_ALIGNMENT_LEFT;
+                _result.setAnchorPoint(0, 1.0);
+                _result.setPosition(-128, -128-64*i);
+                resultArray.push(_result);
+                resultNode.addChild(_result);
+            }
+
+            this.showResult =
+                function()
+                {
+                    resultArray[0].setString("总耗时:" + (SELF.TOTAL_TIME/1000).toString() + "秒" );
+                    resultArray[1].setString(resultTitle[0] + (SELF.computerAv1()/1000).toString() + "秒" );
+                    resultArray[2].setString(resultTitle[1] + (SELF.computerAv2()/1000).toString() + "秒" );
+                    resultArray[3].setString(resultTitle[2] + (SELF.computerAv3()/1000).toString() + "秒" );
+                    resultArray[4].setString(resultTitle[3] + (SELF.computerAv4()/1000).toString() + "秒" );
+
+                    resultNode.setVisible(true);
+                    return resultNode;
+                };
+
+            ////////
             //this.randStart();
             this.nextQuestion();
+        },
+        computerAv1:function()
+        {
+            const count = this.GAME_RECORD.length;
+
+            var result = 0;
+            for( var i in this.GAME_RECORD )
+            {
+                result += this.GAME_RECORD[i].last;
+            }
+
+            result = result / count;
+            return Math.floor(result);
+
+        },
+        computerAv2:function()
+        {
+            const count = this.GAME_RECORD.length;
+
+            var array = [];
+            for( var i in this.GAME_RECORD )
+            {
+                array.push(this.GAME_RECORD[i].last);
+            }
+
+            array.sort();
+
+            var result = 0;
+            for( var i in array )
+            {
+                if( i != 0 && i != count - 1 )
+                {
+                    result += array[i];
+                }
+            }
+
+            result = result / (count - 2);
+            return Math.floor(result);
+
+        },
+        computerAv3:function()
+        {
+            const count = this.GAME_RECORD.length;
+
+            var result = 0;
+            for( var i in this.GAME_RECORD )
+            {
+                result += this.GAME_RECORD[i].last * this.GAME_RECORD[i].last;
+            }
+
+            result = Math.sqrt( result );
+            return Math.floor(result);
+
+        },
+        computerAv4:function()
+        {
+            const count = this.GAME_RECORD.length;
+
+            var result = 0;
+            for( var i in this.GAME_RECORD )
+            {
+                result += this.GAME_RECORD[i].last * this.GAME_RECORD[i].last;
+            }
+
+            result = result / count;
+            result = Math.sqrt( result );
+
+            return Math.floor(result);
+
         },
         nextQuestion:function()
         {
@@ -531,6 +699,9 @@ var sceneGame = cc.Scene.extend(
 
             this.SET_AROUND(this.QUESTION_INDEX, PlayerData.QUESTIONS.length);
             this.ANSWER_CURRENT = null;
+
+            ////////
+            this.AROUND_START = new Date();
         },
         randStart:function()
         {

@@ -30,6 +30,7 @@ function game_init()
     labelChance.setScale(1.5);
     labelChance.setAnchorPoint(0,0.5);
     labelChance.setPosition(256, 128 - 8);
+    labelChance.textAlign = cc.TEXT_ALIGNMENT_LEFT;
     sptFrame.addChild(labelChance);
 
     var button_info = new uiTouchFrameSprite(
