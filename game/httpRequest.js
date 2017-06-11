@@ -154,6 +154,27 @@ function request_GameNormal(callback)
     });
 }
 
+function request_GameFindAnswer(index, callback)
+{
+    const _msg =
+    {
+        "question_index":index
+    };
+
+    var settings = request_settings;
+    settings.method = "PUT";
+    settings.url = "http://huyukongjian.cn:2424/game/find_answer";
+    settings.data = JSON.stringify(_msg);
+
+    $.ajax(settings).done(function (response) {
+        console.log(response);
+        if( callback )
+        {
+            callback(JSON.parse( response ));
+        }
+    });
+}
+
 ////////
 function loginInit()
 {
@@ -188,6 +209,11 @@ function loginInit()
                                 {
                                     if(data.status == 0)
                                     {
+
+                                        PlayerData.GOLD = data.GOLD;
+                                        PlayerData.GOLD_MAX = data.GOLD_MAX;
+                                        PlayerData.refreshGoldUI();
+
                                         close_wait();
                                         show_common_dialog("登录成功", "欢迎来到极速24点游戏，在这里尽情地开发您的大脑吧");
                                     }

@@ -46,9 +46,9 @@ function game_init()
     sptFrame.addChild(button_info);
 
     cc.SET_GOLD =
-        function(GOLD)
+        function(GOLD,GOLD_MAX)
         {
-            labelChance.setString(GOLD.toString());
+            labelChance.setString(GOLD.toString() + "/" + GOLD_MAX.toString());
         };
 
 

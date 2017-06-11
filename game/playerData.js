@@ -81,7 +81,12 @@ var PlayerData =
         {
             var instance =
             {
-
+                GOLD:0,
+                GOLD_MAX:0,
+                refreshGoldUI:function()
+                {
+                    cc.SET_GOLD(this.GOLD, this.GOLD_MAX);
+                }
             };
 
             return instance;

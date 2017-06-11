@@ -12,6 +12,7 @@ var sceneGame = cc.Scene.extend(
         CHOOSE_OPERATOR:null,
         QUESTION_INDEX:0,
         QUESTION_CURRENT:null,
+        ANSWER_CURRENT:null,
         ctor:function()
         {
             var SELF = this;
@@ -429,11 +430,47 @@ var sceneGame = cc.Scene.extend(
                 frame_help[0],frame_help[1],
                 function(target)
                 {
-                    show_confirm_dialog("参考答案","您要查询参考答案需要花费1个智慧星哟",
+                    if( SELF.ANSWER_CURRENT )
+                    {
+                        show_common_dialog("参考答案",SELF.ANSWER_CURRENT);
+                        return;
+                    }
+
+                    if( PlayerData.GOLD == 0 )
+                    {
+                        show_common_dialog("智慧星不足","您的智慧星不足，请开动脑筋解答吧，帮不了你了哟");
+                        return;
+                    }
+
+                    show_confirm_dialog("参考答案","您要查询参考答案需要花费1颗智慧星哟",
                         function()
                         {
                             ////////
-                            show_common_dialog("参考答案",SELF.QUESTION_CURRENT.result);
+                            //show_common_dialog("参考答案",SELF.QUESTION_CURRENT.result);
+
+                            show_wait();
+                            request_GameFindAnswer(
+                                SELF.QUESTION_INDEX-1,
+                                function(data)
+                                {
+                                    if( data.status == 0 )
+                                    {
+                                        SELF.ANSWER_CURRENT = data.answer;
+                                        show_common_dialog("参考答案",data.answer);
+                                        PlayerData.GOLD = data.GOLD;
+                                        PlayerData.refreshGoldUI();
+
+                                    }
+                                    else
+                                    {
+                                        show_common_dialog("网络错误","网络出现错误，错误代码:"+data.status.toString());
+                                    }
+
+                                    close_wait();
+                                    return;
+                                }
+                            );
+
                         }
                     );
                 }
@@ -493,6 +530,7 @@ var sceneGame = cc.Scene.extend(
             this.start(_data.parament[0], _data.parament[1], _data.parament[2], _data.parament[3]);
 
             this.SET_AROUND(this.QUESTION_INDEX, PlayerData.QUESTIONS.length);
+            this.ANSWER_CURRENT = null;
         },
         randStart:function()
         {
