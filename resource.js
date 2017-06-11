@@ -44,6 +44,7 @@ const res_javascript =
         "game/mathCtrl.js",
 
         ////
+        "game/playerData.js",
         "game/option.js",
 
         "game/commonDlg.js",

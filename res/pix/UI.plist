@@ -59,7 +59,7 @@
             <key>button_choosenumber.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{1648,602},{370,370}}</string>
+                <string>{{1658,602},{370,370}}</string>
                 <key>offset</key>
                 <string>{-5,5}</string>
                 <key>rotated</key>
@@ -72,7 +72,7 @@
             <key>button_choosenumber_select.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{1648,221},{378,378}}</string>
+                <string>{{1658,221},{378,378}}</string>
                 <key>offset</key>
                 <string>{-4,4}</string>
                 <key>rotated</key>
@@ -137,7 +137,7 @@
             <key>button_main_1.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{1648,975},{356,110}}</string>
+                <string>{{1292,463},{356,110}}</string>
                 <key>offset</key>
                 <string>{1,1}</string>
                 <key>rotated</key>
@@ -150,7 +150,7 @@
             <key>button_main_2.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{1517,1897},{356,110}}</string>
+                <string>{{1292,350},{356,110}}</string>
                 <key>offset</key>
                 <string>{1,1}</string>
                 <key>rotated</key>
@@ -228,7 +228,7 @@
             <key>button_question_select.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{1292,199},{138,138}}</string>
+                <string>{{1517,1897},{138,138}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -250,6 +250,19 @@
                 <string>{{0,0},{642,1042}}</string>
                 <key>sourceSize</key>
                 <string>{642,1042}</string>
+            </dict>
+            <key>icon_chance.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{1292,199},{148,148}}</string>
+                <key>offset</key>
+                <string>{-2,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{15,17},{148,148}}</string>
+                <key>sourceSize</key>
+                <string>{182,182}</string>
             </dict>
             <key>icon_light.png</key>
             <dict>
@@ -352,7 +365,7 @@
             <key>size</key>
             <string>{2048,2048}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:e7230817c300c6b9070e147502ef010a:1/1$</string>
+            <string>$TexturePacker:SmartUpdate:115c7aa395e55e7bc8f4b54321dcc2f1:1/1$</string>
             <key>textureFileName</key>
             <string>UI.png</string>
         </dict>
