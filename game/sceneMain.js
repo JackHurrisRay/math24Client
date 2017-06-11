@@ -32,9 +32,24 @@ var sceneMain = cc.Scene.extend(
                 null,null,
                 function(touch,event)
                 {
-                    var scene = new sceneGame();
-                    var _trans = new cc.TransitionFadeTR(1, scene);//new cc.TransitionCrossFade(1, scene);
-                    cc.director.runScene(_trans);
+                    request_GameNormal(
+                        function(data)
+                        {
+                            if( data.status == 0 )
+                            {
+                                PlayerData.QUESTIONS = [];
+                                PlayerData.QUESTIONS.concat(data.questions);
+
+                                var scene = new sceneGame();
+                                var _trans = new cc.TransitionFadeTR(1, scene);//new cc.TransitionCrossFade(1, scene);
+                                cc.director.runScene(_trans);
+                            }
+                            else
+                            {
+                                show_common_dialog("网络连接失败","请您检查手机是否正确连上了网络");
+                            }
+                        }
+                    );
                 }
             );
 

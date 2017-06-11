@@ -42,6 +42,7 @@ const res_javascript =
         ////
         "game/Math24.js",
         "game/mathCtrl.js",
+        "game/httpRequest.js",
 
         ////
         "game/playerData.js",

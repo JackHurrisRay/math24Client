@@ -6,12 +6,6 @@ function game_init()
 {
     cc.spriteFrameCache.addSpriteFrames(res_pix.PIX_PLIST, res_pix.PIX_PNG);
 
-    cc._commonDialog = new commonDlg();
-    cc._NoticeficationNode.addChild(cc._commonDialog);
-
-    cc._commonConfirmDlg = new commonConfirmDlg();
-    cc._NoticeficationNode.addChild(cc._commonConfirmDlg);
-
     ////////
     var frame_info =
         [
@@ -56,6 +50,15 @@ function game_init()
         {
             labelChance.setString(GOLD.toString());
         };
+
+
+    ////////
+    cc._commonDialog = new commonDlg();
+    cc._NoticeficationNode.addChild(cc._commonDialog);
+
+    cc._commonConfirmDlg = new commonConfirmDlg();
+    cc._NoticeficationNode.addChild(cc._commonConfirmDlg);
+
 };
 
 
@@ -177,6 +180,11 @@ window.onload = function(){
 
             //game start
             cc.director.runScene(new sceneMain());
+
+            ////////
+
+
+            return;
         }, this);
     };
 

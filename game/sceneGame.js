@@ -10,6 +10,8 @@ var sceneGame = cc.Scene.extend(
         mathCtrlSystem:new math24Controller(),
         CHOOSE_NUMBER:null,
         CHOOSE_OPERATOR:null,
+        QUESTION_INDEX:0,
+        QUESTION_CURRENT:null,
         ctor:function()
         {
             var SELF = this;
@@ -292,12 +294,28 @@ var sceneGame = cc.Scene.extend(
                                 ////////
                                 if( New_Value == 24 && New_Value_Ex == 1 )
                                 {
-                                    show_common_dialog("胜利","恭喜您赢的本局胜利，触摸屏幕进入下一局",
-                                        function()
-                                        {
-                                            SELF.randStart();
-                                        }
-                                    );
+                                    if(SELF.QUESTION_INDEX < PlayerData.QUESTIONS.length )
+                                    {
+                                        show_common_dialog("胜利","恭喜您赢的本局胜利，触摸屏幕进入下一局",
+                                            function()
+                                            {
+                                                //SELF.randStart();
+                                                SELF.nextQuestion();
+                                            }
+                                        );
+                                    }
+                                    else
+                                    {
+                                        show_common_dialog("训练结束","恭喜您完成了训练，休息一下吧",
+                                            function()
+                                            {
+                                                var scene = new sceneMain();
+                                                var _trans = new cc.TransitionFadeBL(1, scene);//new cc.TransitionCrossFade(1, scene);
+                                                cc.director.runScene(_trans);
+                                            }
+                                        );
+                                    }
+
                                 }
                                 else
                                 {
@@ -440,7 +458,21 @@ var sceneGame = cc.Scene.extend(
             button_Help.addChild(_labelHelp);
 
             ////////
-            this.randStart();
+            //this.randStart();
+            this.nextQuestion();
+        },
+        nextQuestion:function()
+        {
+            ////////
+            this.QUESTION_CURRENT = PlayerData.QUESTIONS[this.QUESTION_INDEX];
+            this.QUESTION_INDEX += 1;
+
+            var _cellArray = this.QUESTION_CURRENT.parament;
+            this.QUESTION_CURRENT.parament = changeArray4Sort(_cellArray);
+
+            var data = this.QUESTION_CURRENT;
+
+            this.start(_data.parament[0], _data.parament[1], _data.parament[2], _data.parament[3]);
         },
         randStart:function()
         {
