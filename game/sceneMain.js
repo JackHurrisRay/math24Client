@@ -38,7 +38,7 @@ var sceneMain = cc.Scene.extend(
                             if( data.status == 0 )
                             {
                                 PlayerData.QUESTIONS = [];
-                                PlayerData.QUESTIONS.concat(data.questions);
+                                PlayerData.QUESTIONS = PlayerData.QUESTIONS.concat(data.questions);
 
                                 var scene = new sceneGame();
                                 var _trans = new cc.TransitionFadeTR(1, scene);//new cc.TransitionCrossFade(1, scene);

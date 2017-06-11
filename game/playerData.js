@@ -55,7 +55,7 @@ function randIndexFor4Cells()
         ];
 
     const length = cellGroups.length;
-    const index  = common.GET_RAND(length);
+    const index  = GET_RAND(length);
     var _selectGroup = cellGroups[index];
 
     return _selectGroup;

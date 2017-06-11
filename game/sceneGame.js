@@ -470,7 +470,7 @@ var sceneGame = cc.Scene.extend(
             var _cellArray = this.QUESTION_CURRENT.parament;
             this.QUESTION_CURRENT.parament = changeArray4Sort(_cellArray);
 
-            var data = this.QUESTION_CURRENT;
+            var _data = this.QUESTION_CURRENT;
 
             this.start(_data.parament[0], _data.parament[1], _data.parament[2], _data.parament[3]);
         },
