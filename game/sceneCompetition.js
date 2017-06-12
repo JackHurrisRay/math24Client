@@ -580,13 +580,13 @@ var sceneCompetition = cc.Scene.extend(
             }
 
             this.showResult =
-                function()
+                function(v1,v2,v3,v4)
                 {
                     resultArray[0].setString("总耗时:" + (SELF.TOTAL_TIME/1000).toString() + "秒" );
-                    resultArray[1].setString(resultTitle[0] + (SELF.computerAv1()/1000).toString() + "秒" );
-                    resultArray[2].setString(resultTitle[1] + (SELF.computerAv2()/1000).toString() + "秒" );
-                    resultArray[3].setString(resultTitle[2] + (SELF.computerAv3()/1000).toString() + "秒" );
-                    resultArray[4].setString(resultTitle[3] + (SELF.computerAv4()/1000).toString() + "秒" );
+                    resultArray[1].setString(resultTitle[0] + (v1/1000).toString() + "秒" );
+                    resultArray[2].setString(resultTitle[1] + (v2/1000).toString() + "秒" );
+                    resultArray[3].setString(resultTitle[2] + (v3/1000).toString() + "秒" );
+                    resultArray[4].setString(resultTitle[3] + (v4/1000).toString() + "秒" );
 
                     resultNode.setVisible(true);
                     return resultNode;
@@ -721,12 +721,22 @@ var sceneCompetition = cc.Scene.extend(
             ////////
             if( competition_data.competition_result )
             {
-                show_common_dialog("比赛结束","您的竞速比赛已经结束，休息一下吧，您的成绩马上就会更新哟",
+                var _showNode =
+                this.showResult(
+                    competition_data.competition_result.v1,
+                    competition_data.competition_result.v2,
+                    competition_data.competition_result.v3,
+                    competition_data.competition_result.v4
+                );
+
+                show_common_dialog("比赛结束","您的竞速比赛已经结束，休息一下吧，您的排名马上就会更新哟",
                     function()
                     {
                         var scene = new sceneMain();
                         var _trans = new cc.TransitionFadeBL(1, scene);//new cc.TransitionCrossFade(1, scene);
                         cc.director.runScene(_trans);
+
+                        _showNode.removeFromParent(true);
                     }
                 );
             }

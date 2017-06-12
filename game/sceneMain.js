@@ -142,6 +142,11 @@ var sceneMain = cc.Scene.extend(
                 _back.addChild(_nameLabel);
 
             }
+
+            ////////
+            var frame_top_info = cc.spriteFrameCache.getSpriteFrame("button_common_2.png");
+            //var label =
+
         },
         setSelfImg:function(url)
         {
