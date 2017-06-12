@@ -64,7 +64,48 @@ var sceneMain = cc.Scene.extend(
                 null,null,
                 function(touch,event)
                 {
-                    show_common_dialog("竞速排名","该系统目前暂未开放，敬请关注");
+                    //show_common_dialog("竞速排名","该系统目前暂未开放，敬请关注");
+                    var _callback_competition =
+                        function()
+                        {
+                            show_wait();
+
+                            request_competition(
+                                function(data)
+                                {
+                                    close_wait();
+
+                                    if( data.status == 0 )
+                                    {
+                                        var scene = new sceneCompetition();
+                                        var _trans = new cc.TransitionFadeTR(1, scene);//new cc.TransitionCrossFade(1, scene);
+                                        cc.director.runScene(_trans);
+
+                                        scene.startQuestion(data);
+
+                                        PlayerData.GOLD = data.GOLD;
+                                        PlayerData.refreshGoldUI();
+                                    }
+                                    else if( data.status == 402 )
+                                    {
+                                        show_common_dialog("智慧星不足","您的智慧星不足，目前无法参加竞速比赛哟");
+                                    }
+                                    else
+                                    {
+                                        show_common_dialog("网络连接失败","请您检查手机是否正确连上了网络");
+                                    }
+                                }
+                            );
+                        };
+
+                    show_confirm_dialog("竞速比赛","参加竞速比赛将花费您1颗智慧星，不过第二天智慧星会加满哟。要参加吗？加油，要做宇宙第一大脑哟",
+                        function()
+                        {
+                            _callback_competition();
+                        }
+                    );
+
+
                 }
             );
 

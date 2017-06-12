@@ -38,7 +38,7 @@ var commonDlg =
             this._label_title.setPosition(SCREEN_SIZE.WIDTH/2, SCREEN_SIZE.HEIGHT -  304);
             this.BACK_GROUND.addChild(this._label_title);
 
-            this._label_info = cc.LabelTTF.create("这里为具体通知的内容，测试测试测试测试测试测试，嘿嘿，写长一点测试，再来几个字符串!!!", FONT_NAME.FONT_HEITI, 24);
+            this._label_info = cc.LabelTTF.create("这里为具体通知的内容，测试测试测试测试测试测试，嘿嘿，写长一点测试，再来几个字符串!!!", FONT_NAME.FONT_HEITI, 22);
             this._label_info.setHorizontalAlignment(cc.TEXT_ALIGNMENT_LEFT);
             this._label_info.setDimensions(300, 180);
             this._label_info.setAnchorPoint(0.5, 1.0);
@@ -98,7 +98,7 @@ var commonConfirmDlg =
                 this._label_title.setPosition(SCREEN_SIZE.WIDTH/2, SCREEN_SIZE.HEIGHT -  304);
                 this.BACK_GROUND.addChild(this._label_title);
 
-                this._label_info = cc.LabelTTF.create("这里为具体通知的内容，测试测试测试测试测试测试，嘿嘿，写长一点测试，再来几个字符串!!!", FONT_NAME.FONT_HEITI, 24);
+                this._label_info = cc.LabelTTF.create("这里为具体通知的内容，测试测试测试测试测试测试，嘿嘿，写长一点测试，再来几个字符串!!!", FONT_NAME.FONT_HEITI, 22);
                 this._label_info.setHorizontalAlignment(cc.TEXT_ALIGNMENT_LEFT);
                 this._label_info.setDimensions(300, 180);
                 this._label_info.setAnchorPoint(0.5, 1.0);

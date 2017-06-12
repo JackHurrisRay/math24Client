@@ -175,6 +175,44 @@ function request_GameFindAnswer(index, callback)
     });
 }
 
+function request_competition(callback)
+{
+    var settings = request_settings;
+    settings.method = "PUT";
+    settings.url = "http://huyukongjian.cn:2424/game/com_mode";
+
+    $.ajax(settings).done(function (response) {
+        console.log(response);
+
+        ////parse response
+        if( callback )
+        {
+            callback(JSON.parse( response ));
+        }
+    });
+}
+
+function request_competition_next(key, callback)
+{
+    const _msg =
+    {
+        "key":key
+    };
+
+    var settings = request_settings;
+    settings.method = "PUT";
+    settings.url = "http://huyukongjian.cn:2424/game/com_mode/next";
+    settings.data = JSON.stringify(_msg);
+
+    $.ajax(settings).done(function (response) {
+        console.log(response);
+        if( callback )
+        {
+            callback(JSON.parse( response ));
+        }
+    });
+}
+
 ////////
 function loginInit()
 {
@@ -212,6 +250,7 @@ function loginInit()
                                         PlayerData.GOLD = data.GOLD;
                                         PlayerData.GOLD_MAX = data.GOLD_MAX;
                                         PlayerData.refreshGoldUI();
+                                        PlayerData.UID = wx_data.ID;
 
                                         close_wait();
                                         show_common_dialog("登录成功", "欢迎来到极速24点游戏，在这里尽情地开发您的大脑吧");
@@ -239,7 +278,7 @@ function loginInit()
     }
     else
     {
-        /*
+
         request_Login("18302079187", "password",
             function(res)
             {
@@ -258,6 +297,7 @@ function loginInit()
                                         PlayerData.GOLD = data.GOLD;
                                         PlayerData.GOLD_MAX = data.GOLD_MAX;
                                         PlayerData.refreshGoldUI();
+                                        PlayerData.UID = "1497033632009086";
 
                                         close_wait();
                                         show_common_dialog("登录成功", "欢迎来到极速24点游戏，在这里尽情地开发您的大脑吧");
@@ -281,7 +321,7 @@ function loginInit()
                 return;
             }
         );
-        */
+
 
     }
 }

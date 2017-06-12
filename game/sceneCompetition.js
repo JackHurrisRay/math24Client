@@ -1,8 +1,8 @@
 /**
- * Created by Jack.L on 2017/6/7.
+ * Created by Jack.L on 2017/6/12.
  */
 
-var sceneGame = cc.Scene.extend(
+var sceneCompetition = cc.Scene.extend(
     {
         mathCtrlSystem:new math24Controller(),
         CHOOSE_NUMBER:null,
@@ -304,33 +304,15 @@ var sceneGame = cc.Scene.extend(
                                     SELF.GAME_RECORD.push(_RESULT_RECORD);
 
                                     ////////
-                                    if(SELF.QUESTION_INDEX < PlayerData.QUESTIONS.length )
+                                    if(SELF.QUESTION_INDEX <= SELF.QUESTION_COUNT_MAX )
                                     {
-                                        show_common_dialog("胜利","恭喜您赢的本局胜利，触摸屏幕进入下一局",
+                                        show_common_dialog("胜利","恭喜您赢的本局胜利，赶紧进入下一局吧",
                                             function()
                                             {
-                                                //SELF.randStart();
                                                 SELF.nextQuestion();
                                             }
                                         );
                                     }
-                                    else
-                                    {
-                                        SELF.GAME_END = true;
-                                        var _resultNode = SELF.showResult();
-
-                                        show_common_dialog("训练结束","恭喜您完成了训练，休息一下吧，看看自己训练的结果，离天才还有多远呢",
-                                            function()
-                                            {
-                                                var scene = new sceneMain();
-                                                var _trans = new cc.TransitionFadeBL(1, scene);//new cc.TransitionCrossFade(1, scene);
-                                                cc.director.runScene(_trans);
-
-                                                _resultNode.removeFromParent(true);
-                                            }
-                                        );
-                                    }
-
                                 }
                                 else
                                 {
@@ -434,6 +416,7 @@ var sceneGame = cc.Scene.extend(
             }
 
             ////////
+            /*
             var frame_help =
                 [
                     cc.spriteFrameCache.getSpriteFrame("button_common_1.png"),
@@ -507,6 +490,7 @@ var sceneGame = cc.Scene.extend(
             _labelHelp.setAnchorPoint(0.0, 0.5);
             _labelHelp.setPosition(cc.p(16.0 + 128, _buttonHelpSize.height/2));
             button_Help.addChild(_labelHelp);
+            */
 
             ////////
             var _backAroundInfo = cc.Sprite.createWithSpriteFrame(_frameCtrl[2]);
@@ -610,7 +594,7 @@ var sceneGame = cc.Scene.extend(
 
             ////////
             //this.randStart();
-            this.nextQuestion();
+            //this.nextQuestion();
         },
         computerAv1:function()
         {
@@ -681,24 +665,96 @@ var sceneGame = cc.Scene.extend(
             return Math.floor(result);
 
         },
+        startQuestion:function(competition_data)
+        {
+            ////////
+            this.QUESTION_COUNT_MAX = competition_data.question_max;
+
+            const _sourceKey = competition_data.question_key;
+            const _UID = PlayerData.UID;
+            const _key = KEY_MATH.decrypt(_sourceKey, _UID);
+
+            this.CURRENT_KEY = _key;
+
+            const _sourceQuestion = competition_data.question;
+            const _strQuestion = KEY_MATH.decrypt(_sourceQuestion, this.CURRENT_KEY);
+
+            const _question = JSON.parse(_strQuestion);
+
+            ////////
+            this.QUESTION_CURRENT = changeArray4Sort(_question.parament);
+            this.start(
+                this.QUESTION_CURRENT[0],
+                this.QUESTION_CURRENT[1],
+                this.QUESTION_CURRENT[2],
+                this.QUESTION_CURRENT[3]);
+
+            this.QUESTION_INDEX = 1;
+
+
+            return;
+        },
         nextQuestion:function()
         {
             ////////
-            this.QUESTION_CURRENT = PlayerData.QUESTIONS[this.QUESTION_INDEX];
-            this.QUESTION_INDEX += 1;
+            var SELF  = this;
+            const KEY = KEY_MATH.encrypt(PlayerData.UID, this.CURRENT_KEY);
 
-            var _cellArray = this.QUESTION_CURRENT.parament;
-            this.QUESTION_CURRENT.parament = changeArray4Sort(_cellArray);
-
-            var _data = this.QUESTION_CURRENT;
-
-            this.start(_data.parament[0], _data.parament[1], _data.parament[2], _data.parament[3]);
-
-            this.SET_AROUND(this.QUESTION_INDEX, PlayerData.QUESTIONS.length);
-            this.ANSWER_CURRENT = null;
-
+            show_wait();
+            request_competition_next(KEY,
+                function(data)
+                {
+                    close_wait();
+                    if( data && data.status == 0 )
+                    {
+                        SELF._nextQuestion(data);
+                    }
+                    else
+                    {
+                        show_common_dialog("您的竞赛已被终止","请您检查手机的网络环境，以及您是否正常参加竞速比赛");
+                    }
+                }
+            );
+        },
+        _nextQuestion:function(competition_data)
+        {
             ////////
-            this.AROUND_START = new Date();
+            if( competition_data.competition_result )
+            {
+                show_common_dialog("比赛结束","您的竞速比赛已经结束，休息一下吧，您的成绩马上就会更新哟",
+                    function()
+                    {
+                        var scene = new sceneMain();
+                        var _trans = new cc.TransitionFadeBL(1, scene);//new cc.TransitionCrossFade(1, scene);
+                        cc.director.runScene(_trans);
+                    }
+                );
+            }
+            else
+            {
+                const _sourceKey = competition_data.question_key;
+                const _UID = PlayerData.UID;
+                const _key = KEY_MATH.decrypt(_sourceKey, _UID);
+
+                this.CURRENT_KEY = _key;
+
+                const _sourceQuestion = competition_data.question;
+                const _strQuestion = KEY_MATH.decrypt(_sourceQuestion, this.CURRENT_KEY);
+
+                const _question = JSON.parse(_strQuestion);
+
+                ////////
+                this.QUESTION_CURRENT = changeArray4Sort(_question.parament);
+                this.start(
+                    this.QUESTION_CURRENT[0],
+                    this.QUESTION_CURRENT[1],
+                    this.QUESTION_CURRENT[2],
+                    this.QUESTION_CURRENT[3]);
+
+                this.QUESTION_INDEX = competition_data.question_index + 1;
+
+                this.SET_AROUND(this.QUESTION_INDEX, this.QUESTION_COUNT_MAX);
+            }
         },
         randStart:function()
         {
