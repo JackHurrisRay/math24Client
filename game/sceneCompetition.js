@@ -43,9 +43,14 @@ var sceneCompetition = cc.Scene.extend(
             var _button_back = new uiTouchFrameSprite(_frameBack[0], _frameBack[1],
                 function(target)
                 {
-                    var scene = new sceneMain();
-                    var _trans = new cc.TransitionFadeBL(1, scene);//new cc.TransitionCrossFade(1, scene);
-                    cc.director.runScene(_trans);
+                    show_confirm_dialog("退出比赛","您确认要退出当前的比赛么，退出以后不会返还您的智慧星哟，而且当前成绩会当做弃权处理，排名也会下降哟",
+                        function()
+                        {
+                            var scene = new sceneMain();
+                            var _trans = new cc.TransitionFadeBL(1, scene);//new cc.TransitionCrossFade(1, scene);
+                            cc.director.runScene(_trans);
+                        }
+                    );
                 }
             );
 
@@ -691,6 +696,7 @@ var sceneCompetition = cc.Scene.extend(
 
             this.QUESTION_INDEX = 1;
 
+            this.SET_AROUND(this.QUESTION_INDEX, this.QUESTION_COUNT_MAX);
 
             return;
         },
@@ -765,14 +771,6 @@ var sceneCompetition = cc.Scene.extend(
 
                 this.SET_AROUND(this.QUESTION_INDEX, this.QUESTION_COUNT_MAX);
             }
-        },
-        randStart:function()
-        {
-            const _talbeSize = MATH24_TABLE.length;
-            const _index = GET_RAND(_talbeSize);
-
-            const _data = MATH24_TABLE[_index];
-            this.start(_data.parament[0], _data.parament[1], _data.parament[2], _data.parament[3]);
         },
         start:function(n1,n2,n3,n4)
         {

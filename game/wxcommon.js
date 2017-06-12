@@ -73,7 +73,7 @@ function resetWxCommon(room_id)
         wx.onMenuShareAppMessage(
             {
                 title:"极速24点",
-                desc:"内部测试版本，敬请关注!",
+                desc:"大脑无极限，智商爆炸，挑战极限，争夺全服第一!",
                 link:"http://huyukongjian.cn/auth?content=" + _strServerContent,
                 imgUrl:"http://5941game.oss-cn-qingdao.aliyuncs.com/math24/math24_logo.png",
                 type:null,
@@ -92,7 +92,7 @@ function resetWxCommon(room_id)
 
         wx.onMenuShareTimeline(
             {
-                title:"极速24点--内部测试，敬请关注",
+                title:"极速24点--大脑无极限，智商爆炸，挑战极限，争夺全服第一!",
                 link:"http://huyukongjian.cn/auth?content=" + _strServerContent,
                 imgUrl:"http://5941game.oss-cn-qingdao.aliyuncs.com/math24/math24_logo.png",
                 type:null,

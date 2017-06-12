@@ -145,8 +145,64 @@ var sceneMain = cc.Scene.extend(
 
             ////////
             var frame_top_info = cc.spriteFrameCache.getSpriteFrame("button_common_2.png");
-            //var label =
 
+            ////////
+            var _spttop1 = cc.Sprite.createWithSpriteFrame(frame_top_info);
+            _spttop1.setAnchorPoint(0, 1.0);
+            _spttop1.setPosition(4, SCREEN_SIZE.HEIGHT / 2 - 32);
+            _spttop1.setScale(0.375);
+
+            var labeltop1 = cc.LabelTTF.create("全服最强大脑排名",FONT_NAME.FONT_APPLEGOTHIC, 56);
+            labeltop1.setAnchorPoint(0, 0.5);
+            labeltop1.textAlign = cc.TEXT_ALIGNMENT_LEFT;
+            labeltop1.setPosition(64.0, 128.0);
+            _spttop1.addChild(labeltop1);
+
+            _back.addChild(_spttop1);
+
+            ////////
+            var _spttop2 = cc.Sprite.createWithSpriteFrame(frame_top_info);
+            _spttop2.setAnchorPoint(0, 1.0);
+            _spttop2.setPosition(4, SCREEN_SIZE.HEIGHT / 2 - 128);
+            _spttop2.setScale(0.375);
+
+            var labeltop2 = cc.LabelTTF.create("全服最强智商排名",FONT_NAME.FONT_APPLEGOTHIC, 56);
+            labeltop2.setAnchorPoint(0, 0.5);
+            labeltop2.textAlign = cc.TEXT_ALIGNMENT_LEFT;
+            labeltop2.setPosition(64.0, 128.0);
+            _spttop2.addChild(labeltop2);
+
+            _back.addChild(_spttop2);
+
+            ////////
+            _spttop1.setVisible(false);
+            _spttop2.setVisible(false);
+
+            setTimeout(
+                function()
+                {
+                    request_competition_top(
+                        function(data)
+                        {
+                            if( data && data.status == 0 && data.top_result )
+                            {
+                                labeltop1.setString("全服最强大脑 第" + data.top_result[0].toString() + "名");
+                                labeltop2.setString("全服最强智商 第" + data.top_result[2].toString() + "名");
+
+                                _spttop1.setVisible(true);
+                                _spttop2.setVisible(true);
+
+                                _spttop1.runAction(cc.FadeIn.create(3.0, 255));
+                                _spttop2.runAction(cc.FadeIn.create(3.0, 255));
+
+                                labeltop1.runAction(cc.FadeIn.create(6.0, 255));
+                                labeltop2.runAction(cc.FadeIn.create(6.0, 255));
+                            }
+                        }
+                    );
+                },
+                5000
+            );
         },
         setSelfImg:function(url)
         {

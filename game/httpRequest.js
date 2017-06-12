@@ -213,6 +213,23 @@ function request_competition_next(key, callback)
     });
 }
 
+function request_competition_top(callback)
+{
+    var settings = request_settings;
+    settings.method = "PUT";
+    settings.url = "http://huyukongjian.cn:2424/game/com_top";
+
+    $.ajax(settings).done(function (response) {
+        console.log(response);
+
+        ////parse response
+        if( callback )
+        {
+            callback(JSON.parse( response ));
+        }
+    });
+}
+
 ////////
 function loginInit()
 {
