@@ -268,7 +268,6 @@ function loginInit()
             }
         );
 
-
         request_Login(wx_data.login_id, wx_data.login_pwd,
             function(res)
             {
@@ -291,6 +290,20 @@ function loginInit()
 
                                         close_wait();
                                         show_common_dialog("登录成功", "欢迎来到极速24点游戏，在这里尽情地开发您的大脑吧");
+
+                                        ////////
+                                        TDGA.Account(
+                                            {
+                                                accountId:wx_data.login_id,
+                                                accountType:1,
+                                                accountName:wx_data.NICKNAME
+                                            }
+                                        );
+
+                                        if( wx_data )
+                                        {
+                                            TDGA.Account.setGender(wx_data.sex);
+                                        }
                                     }
                                     else
                                     {
@@ -315,7 +328,7 @@ function loginInit()
     }
     else
     {
-        ///*
+        /*
         request_Login("18302079187", "password",
             function(res)
             {
@@ -359,7 +372,7 @@ function loginInit()
             }
         );
 
-        //*/
+        */
 
     }
 
