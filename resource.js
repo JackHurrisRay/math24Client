@@ -52,7 +52,8 @@ const res_javascript =
         "game/uiTouchSprite.js",
         "game/uiMathCtrSprite.js",
         "game/sceneMain.js",
-        "game/sceneGame.js"
+        "game/sceneGame.js",
+        "game/sceneCompetition.js",
 
     ];
 

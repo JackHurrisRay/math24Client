@@ -122,11 +122,11 @@ var sceneMain = cc.Scene.extend(
                 ];
 
             this.PLAYER_IMG = cc.Sprite.createWithSpriteFrame(_frame_img[1]);
-            this.PLAYER_IMG.setPosition(SCREEN_SIZE.WIDTH/2, SCREEN_SIZE.HEIGHT * 0.618);
+            this.PLAYER_IMG.setPosition(SCREEN_SIZE.WIDTH/2, SCREEN_SIZE.HEIGHT * 0.618 + 64);
             _back.addChild(this.PLAYER_IMG);
 
             var _sptAround = cc.Sprite.createWithSpriteFrame(_frame_img[0]);
-            _sptAround.setPosition(SCREEN_SIZE.WIDTH/2, SCREEN_SIZE.HEIGHT * 0.618);
+            _sptAround.setPosition(SCREEN_SIZE.WIDTH/2, SCREEN_SIZE.HEIGHT * 0.618 + 64);
             _back.addChild(_sptAround);
 
             ////////
@@ -138,7 +138,7 @@ var sceneMain = cc.Scene.extend(
 
                 ////////
                 var _nameLabel = cc.LabelTTF.create(_wx_data.NICKNAME, FONT_NAME.FONT_HEITI, 32);
-                _nameLabel.setPosition(SCREEN_SIZE.WIDTH/2, SCREEN_SIZE.HEIGHT * 0.618 - 180);
+                _nameLabel.setPosition(SCREEN_SIZE.WIDTH/2, SCREEN_SIZE.HEIGHT * 0.618 - 160 + 64);
                 _back.addChild(_nameLabel);
 
             }
