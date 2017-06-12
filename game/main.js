@@ -88,35 +88,44 @@ function close_wait()
     cc._commonWaitDlg.close();
 }
 
-function TDRecord(data)
+function TDRecord()
 {
+    const item_name = "智慧星";
     TDGA.onItemPurchase({
-        item :data.item,
+        item :item_name,
         itemNumber : 1,
         priceInVirtualCurrency : data.priceInVirtualCurrency
     });
 
     TDGA.onItemUse({
-        item : data.item,
+        item :item_name,
         itemNumber : 1
     });
 };
 
-const MISSION_NAME = "进入房间";
-function TDMissionBegin()
+const MISSION_NAME =
+    [
+        "普通练习",
+        "竞速比赛"
+    ];
+
+var _MISSION_INDEX = 0;
+
+function TDMissionBegin(index)
 {
-    TDGA.onMissionBegin(MISSION_NAME);
+    _MISSION_INDEX = index;
+    TDGA.onMissionBegin(MISSION_NAME[_MISSION_INDEX]);
 }
 
 function TDMissionResult(success, cause)
 {
     if( success )
     {
-        TDGA.onMissionCompleted(MISSION_NAME);
+        TDGA.onMissionCompleted(MISSION_NAME[_MISSION_INDEX]);
     }
     else
     {
-        TDGA.onMissionFailed(MISSION_NAME, cause?cause.toString():"unknown");
+        TDGA.onMissionFailed(MISSION_NAME[_MISSION_INDEX], cause?cause.toString():"unknown");
     }
 }
 

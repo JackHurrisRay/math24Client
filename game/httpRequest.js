@@ -147,6 +147,12 @@ function request_GameNormal(callback)
 
     $.ajax(settings).done(function (response) {
         console.log(response);
+
+        if( response.status == 0 )
+        {
+            TDMissionBegin(0);
+        }
+
         if( callback )
         {
             callback(JSON.parse( response ));
@@ -168,6 +174,12 @@ function request_GameFindAnswer(index, callback)
 
     $.ajax(settings).done(function (response) {
         console.log(response);
+
+        if( response.status == 0 )
+        {
+            TDRecord();
+        }
+
         if( callback )
         {
             callback(JSON.parse( response ));
@@ -183,6 +195,13 @@ function request_competition(callback)
 
     $.ajax(settings).done(function (response) {
         console.log(response);
+
+        if( response.status == 0 )
+        {
+            TDRecord();
+
+            TDMissionBegin(1);
+        }
 
         ////parse response
         if( callback )
@@ -206,6 +225,7 @@ function request_competition_next(key, callback)
 
     $.ajax(settings).done(function (response) {
         console.log(response);
+
         if( callback )
         {
             callback(JSON.parse( response ));
@@ -295,7 +315,7 @@ function loginInit()
     }
     else
     {
-
+        ///*
         request_Login("18302079187", "password",
             function(res)
             {
@@ -339,8 +359,11 @@ function loginInit()
             }
         );
 
+        //*/
 
     }
+
+
 }
 
 

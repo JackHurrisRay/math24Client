@@ -43,9 +43,16 @@ var sceneGame = cc.Scene.extend(
             var _button_back = new uiTouchFrameSprite(_frameBack[0], _frameBack[1],
                 function(target)
                 {
-                    var scene = new sceneMain();
-                    var _trans = new cc.TransitionFadeBL(1, scene);//new cc.TransitionCrossFade(1, scene);
-                    cc.director.runScene(_trans);
+                    show_confirm_dialog("退出练习","您确认要退出当前的练习么？",
+                        function()
+                        {
+                            TDMissionResult(false, "玩家主动退出练习");
+
+                            var scene = new sceneMain();
+                            var _trans = new cc.TransitionFadeBL(1, scene);//new cc.TransitionCrossFade(1, scene);
+                            cc.director.runScene(_trans);
+                        }
+                    );
                 }
             );
 
@@ -322,6 +329,8 @@ var sceneGame = cc.Scene.extend(
                                         show_common_dialog("训练结束","恭喜您完成了训练，休息一下吧，看看自己训练的结果，离天才还有多远呢",
                                             function()
                                             {
+                                                TDMissionResult(true, "");
+                                                
                                                 var scene = new sceneMain();
                                                 var _trans = new cc.TransitionFadeBL(1, scene);//new cc.TransitionCrossFade(1, scene);
                                                 cc.director.runScene(_trans);

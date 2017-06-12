@@ -46,6 +46,8 @@ var sceneCompetition = cc.Scene.extend(
                     show_confirm_dialog("退出比赛","您确认要退出当前的比赛么，退出以后不会返还您的智慧星哟，而且当前成绩会当做弃权处理，排名也会下降哟",
                         function()
                         {
+                            TDMissionResult(false, "玩家主动放弃比赛");
+
                             var scene = new sceneMain();
                             var _trans = new cc.TransitionFadeBL(1, scene);//new cc.TransitionCrossFade(1, scene);
                             cc.director.runScene(_trans);
@@ -718,6 +720,7 @@ var sceneCompetition = cc.Scene.extend(
                     else
                     {
                         show_common_dialog("您的竞赛已被终止","请您检查手机的网络环境，以及您是否正常参加竞速比赛");
+                        TDMissionResult(false, "网络断开连接");
                     }
                 }
             );
@@ -727,6 +730,8 @@ var sceneCompetition = cc.Scene.extend(
             ////////
             if( competition_data.competition_result )
             {
+                TDMissionResult(true, "");
+
                 var _showNode =
                 this.showResult(
                     competition_data.competition_result.v1,
