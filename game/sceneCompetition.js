@@ -506,7 +506,7 @@ var sceneCompetition = cc.Scene.extend(
             _backAroundInfo.setPosition(380, SCREEN_SIZE.HEIGHT - 4);
             this.addChild(_backAroundInfo);
 
-            var labelAround = cc.LabelTTF.create("0/0",FONT_NAME.FONT_HEITI,72);
+            var labelAround = cc.LabelTTF.create("0/0",FONT_NAME.FONT_HEITI,64);
             labelAround.setScale(1.25);
             labelAround.setPosition(128,128);
             _backAroundInfo.addChild(labelAround);
