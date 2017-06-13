@@ -256,6 +256,7 @@ function loginInit()
     show_wait();
 
     if( wx_data ) {
+        /*
         request_Login(wx_data.login_id, wx_data.login_pwd,
             function (res) {
                 //request_Login(wx_data.login_id, wx_data.login_pwd);
@@ -267,6 +268,7 @@ function loginInit()
                 );
             }
         );
+        */
 
         request_Login(wx_data.login_id, wx_data.login_pwd,
             function(res)
@@ -277,6 +279,12 @@ function loginInit()
                     request_Content(
                         function(data)
                         {
+                            if( data.status != 0 )
+                            {
+                                show_common_dialog("登录失败", "请您检查手机是否正确连上了网络，并重新进入游戏");
+                                return;
+                            }
+
                             request_LoginGame(wx_data.ID,
                                 function(data)
                                 {
@@ -308,7 +316,7 @@ function loginInit()
                                     else
                                     {
                                         close_wait();
-                                        show_common_dialog("登录失败", "请您检查手机是否正确连上了网络");
+                                        show_common_dialog("登录失败", "请您检查手机是否正确连上了网络，并重新进入游戏");
                                     }
                                 }
                             );
@@ -318,7 +326,7 @@ function loginInit()
                 else
                 {
                     close_wait();
-                    show_common_dialog("登录失败", "请您检查您的手机正确连上了网络");
+                    show_common_dialog("登录失败", "请您检查手机是否正确连上了网络，并重新进入游戏");
                 }
 
                 return;

@@ -229,11 +229,14 @@ var waitDlg = cc.LayerColor.extend(
                 }
             );
 
+            this.LABEL = _label;
         },
         show:function()
         {
+            ////////
             UI_TOUCH_MUTEX = true;
             this.setVisible(true);
+
         },
         close:function()
         {

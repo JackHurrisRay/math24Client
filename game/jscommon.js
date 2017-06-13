@@ -209,10 +209,23 @@ var GameTimer =
         var _startTime = window.mozAnimationStartTime || Date.now();
         var _lastTime = 0;
         var _CALLBACK = null;
+        var _STOP = false;
+        var _callback_stop = null;
 
         var _update =
             function(timestamp)
             {
+                if( _STOP )
+                {
+                    if( _callback_stop )
+                    {
+                        _callback_stop();
+                        _callback_stop = null;
+                    }
+
+                    return;
+                }
+
                 var _checktime = (new Date()).getTime();
 
                 if( _checktime - _startTime > _lastTime )
@@ -233,15 +246,22 @@ var GameTimer =
             ANIMATION_ID:0,
             init:function(msecond, callback)
             {
-                _lastTime  = msecond;
-                _CALLBACK  = callback;
-                _startTime = (new Date()).getTime();
+                _lastTime      = msecond;
+                _CALLBACK      = callback;
+                _callback_stop = null;
+                _STOP          = false;
+                _startTime     = (new Date()).getTime();
 
                 this.ANIMATION_ID = requestAnimationFrame(_update);
             },
             setTime:function(time)
             {
                 _lastTime = time;
+            },
+            stop:function(callback)
+            {
+                _callback_stop = callback;
+                _STOP = true;
             }
         };
 
