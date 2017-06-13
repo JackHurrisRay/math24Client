@@ -71,6 +71,7 @@ function game_init()
         function(target)
         {
             ////////
+            /*
             const size = cc.director.getWinSize();
 
             var _frame = cc.spriteFrameCache.getSpriteFrame("info_back_ex.png");
@@ -78,11 +79,12 @@ function game_init()
             _spt.setAnchorPoint(0.5, 1.0);
             _spt.setPosition(size.width/2, size.height);
             cc._TOP_ROOT.addChild(_spt);
+            */
 
-            show_common_dialog("智慧星", "参考答案或竞速模式都会消耗智慧星。不过第二天智慧星会加满哟，积极分享也有机会获取额外的智慧星哟。",
+            show_common_dialog("智慧星", "参考答案或竞速模式都会消耗智慧星，不过第二天智慧星一定会加满哟，积极分享给好友，让好友参赛竞速排名也可以获取额外的智慧星哟。",
                 function()
                 {
-                    cc._TOP_ROOT.removeAllChildrenWithCleanup(true);
+                    //cc._TOP_ROOT.removeAllChildrenWithCleanup(true);
                 }
             );
 

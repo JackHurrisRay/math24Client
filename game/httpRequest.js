@@ -401,9 +401,10 @@ function loginInit()
 
                                         if( data.GOLD_FROM && data.GOLD_FROM.length > 0 )
                                         {
+                                            console.log(JSON.stringify(data));
+
                                             createPlayersInTop(data.GOLD_FROM);
                                             const gold_from_length = data.GOLD_FROM.length;
-                                            const gold_add_value   = data.GOLD_ADD;
 
                                             cc.SET_SPTCHANCE(
                                                 function()
@@ -412,6 +413,8 @@ function loginInit()
                                                     request_add_gold_from(
                                                         function(data)
                                                         {
+                                                            const gold_add_value   = data.GOLD_ADD;
+
                                                             cc._TOP_ROOT.setVisible(true);
                                                             PlayerData.GOLD = data.GOLD;
 
