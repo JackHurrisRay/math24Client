@@ -402,6 +402,8 @@ function loginInit()
                                         if( data.GOLD_FROM && data.GOLD_FROM.length > 0 )
                                         {
                                             createPlayersInTop(data.GOLD_FROM);
+                                            const gold_from_length = data.GOLD_FROM.length;
+                                            const gold_add_value   = data.GOLD_ADD;
 
                                             cc.SET_SPTCHANCE(
                                                 function()
@@ -416,7 +418,7 @@ function loginInit()
                                                             ////////
                                                             show_common_dialog(
                                                                 "友谊共进",
-                                                                "您有" + data.GOLD_FROM.length.toString()  + "个好友因为积极参赛，共为您提供了" + data.GOLD_ADD.toString() + "个金币哟",
+                                                                "您有" + gold_from_length.toString()  + "个好友因为积极参赛，共为您提供了" + gold_add_value.toString() + "个金币哟",
                                                                 function()
                                                                 {
                                                                     PlayerData.refreshGoldUI();

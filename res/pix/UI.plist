@@ -46,7 +46,7 @@
             <key>button_back_select.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{1962,219},{110,82}}</string>
+                <string>{{1962,225},{110,82}}</string>
                 <key>offset</key>
                 <string>{-3,1}</string>
                 <key>rotated</key>
@@ -59,7 +59,7 @@
             <key>button_choosenumber.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{1648,819},{370,370}}</string>
+                <string>{{1648,825},{370,370}}</string>
                 <key>offset</key>
                 <string>{-5,5}</string>
                 <key>rotated</key>
@@ -72,7 +72,7 @@
             <key>button_choosenumber_select.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{1648,438},{378,378}}</string>
+                <string>{{1648,444},{378,378}}</string>
                 <key>offset</key>
                 <string>{-4,4}</string>
                 <key>rotated</key>
@@ -85,7 +85,7 @@
             <key>button_common_1.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{1493,219},{466,216}}</string>
+                <string>{{1493,225},{466,216}}</string>
                 <key>offset</key>
                 <string>{-3,1}</string>
                 <key>rotated</key>
@@ -137,7 +137,7 @@
             <key>button_main_1.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{1648,1192},{356,110}}</string>
+                <string>{{1648,1198},{356,110}}</string>
                 <key>offset</key>
                 <string>{1,1}</string>
                 <key>rotated</key>
@@ -280,13 +280,13 @@
             <key>info_back_ex.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{1493,2},{494,214}}</string>
+                <string>{{1493,2},{500,220}}</string>
                 <key>offset</key>
-                <string>{62,3}</string>
+                <string>{64,6}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{136,11},{494,214}}</string>
+                <string>{{135,5},{500,220}}</string>
                 <key>sourceSize</key>
                 <string>{642,242}</string>
             </dict>
@@ -378,7 +378,7 @@
             <key>size</key>
             <string>{2048,2048}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:3d21492a434427106c396e77834e760a:1/1$</string>
+            <string>$TexturePacker:SmartUpdate:df4cf10a8c2e60945811e200bcad8cf6:1/1$</string>
             <key>textureFileName</key>
             <string>UI.png</string>
         </dict>
