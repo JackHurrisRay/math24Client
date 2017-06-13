@@ -345,6 +345,18 @@ function createPlayersInTop(PLAYER_LIST)
 
             ////////
             setPlayerImgFromURL(ID, PLAYER_IMG, _imgwideflag, _imgwideflag);
+
+            ////////
+            var action1 = cc.Sequence.create(
+                cc.ScaleTo.create(0.125, 1.0 + 0.01 + Math.random() * 0.05),
+                cc.ScaleTo.create(0.125, 1.0),
+                cc.ScaleTo.create(0.125, 1.0 - 0.01 - Math.random() * 0.05),
+                cc.ScaleTo.create(0.125, 1.0)
+            );
+
+            var button_anim = cc.RepeatForever.create(action1);
+            _node.runAction(button_anim);
+
         }
         else
         {
