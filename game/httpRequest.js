@@ -125,6 +125,12 @@ function request_LoginGame(uid, callback)
         "uid":uid
     };
 
+    if( wx_data && wx_data.inviter && wx_data.inviter_datecheck )
+    {
+        _msg.inviter = wx_data.inviter;
+        _msg.inviter_datecheck = wx_data.inviter_datecheck;
+    }
+
     var settings = request_settings;
     settings.method = "POST";
     settings.url = "http://huyukongjian.cn:2424/login";
@@ -250,6 +256,103 @@ function request_competition_top(callback)
     });
 }
 
+function request_add_gold_from(callback)
+{
+    var settings = request_settings;
+    settings.method = "PUT";
+    settings.url = "http://huyukongjian.cn:2424/game/add_gold_from";
+
+    $.ajax(settings).done(function (response) {
+        console.log(response);
+
+        ////parse response
+        if( callback )
+        {
+            callback(JSON.parse( response ));
+        }
+    });
+}
+
+////////
+function setPlayerImgFromURL(ID, spt, w, h)
+{
+    const url = "http://app.huyukongjian.cn/account_wx_img/" + ID.toString();
+    var shader = cc.SHADER_playerImg;
+
+    loadImgFromUrl(spt, url,
+        {w:w,h:h},
+        shader
+    );
+}
+
+function createPlayersInTop(PLAYER_LIST)
+{
+    ////////
+    const player_count = PLAYER_LIST.length;
+
+    ////////
+    var _topNode = cc._TOP_ROOT;
+    _topNode.setVisible(false);
+
+    var _nodeArray = [];
+
+    const _imgwideflag = 128;
+    const _screen_y_flag = SCREEN_SIZE.HEIGHT / 2 - 96;
+
+    const _count = 4;
+    const _screen_width_flag = SCREEN_SIZE.WIDTH / _count;
+
+    for( var i=0; i<_count; i++ )
+    {
+        for( var j=0; j<_count; j++ )
+        {
+            var _node = cc.Node.create();
+            _node.setPosition(cc.p(_screen_width_flag/2 + _screen_width_flag*j, _screen_y_flag-i*_screen_width_flag));
+
+            _nodeArray.push(_node);
+            _topNode.addChild(_node);
+            _node.setVisible(false);
+        }
+    }
+
+    var _frame_img =
+        [
+            cc.spriteFrameCache.getSpriteFrame("player_img_around.png"),
+            cc.spriteFrameCache.getSpriteFrame("player_img_default.png"),
+        ];
+
+    for( var i in PLAYER_LIST )
+    {
+        if( i < _nodeArray.length )
+        {
+            var _node = _nodeArray[i];
+            const ID = PLAYER_LIST[i];
+
+            var PLAYER_IMG = cc.Sprite.createWithSpriteFrame(_frame_img[1]);
+            _node.addChild(PLAYER_IMG);
+
+            var _sptAround = cc.Sprite.createWithSpriteFrame(_frame_img[0]);
+            _node.addChild(_sptAround);
+
+            const sizeflag = _imgwideflag / 256.0;
+            PLAYER_IMG.setScale(sizeflag);
+            _sptAround.setScale(sizeflag);
+
+            _node.setVisible(true);
+
+            ////////
+            setPlayerImgFromURL(ID, PLAYER_IMG, _imgwideflag, _imgwideflag);
+        }
+        else
+        {
+            break;
+        }
+
+    }
+
+    //_topNode.setVisible(true);
+}
+
 ////////
 function loginInit()
 {
@@ -279,11 +382,7 @@ function loginInit()
                     request_Content(
                         function(data)
                         {
-                            if( data.status != 0 )
-                            {
-                                show_common_dialog("登录失败", "请您检查手机是否正确连上了网络，并重新进入游戏");
-                                return;
-                            }
+                            console.log('登录游戏服务器');
 
                             request_LoginGame(wx_data.ID,
                                 function(data)
@@ -294,7 +393,38 @@ function loginInit()
                                         PlayerData.GOLD = data.GOLD;
                                         PlayerData.GOLD_MAX = data.GOLD_MAX;
                                         PlayerData.refreshGoldUI();
+
                                         PlayerData.UID = wx_data.ID;
+
+                                        if( data.GOLD_FROM && data.GOLD_FROM.length > 0 )
+                                        {
+                                            createPlayersInTop(data.GOLD_FROM);
+
+                                            cc.SET_SPTCHANCE(
+                                                function()
+                                                {
+                                                    ////////
+                                                    request_add_gold_from(
+                                                        function(data)
+                                                        {
+                                                            cc._TOP_ROOT.setVisible(true);
+                                                            PlayerData.GOLD = data.GOLD;
+
+                                                            ////////
+                                                            show_common_dialog(
+                                                                "友谊共进",
+                                                                "您有" + data.GOLD_FROM.length.toString()  + "个好友因为积极参赛，共为您提供了" + data.GOLD_ADD.toString() + "个金币哟",
+                                                                function()
+                                                                {
+                                                                    PlayerData.refreshGoldUI();
+                                                                    cc._TOP_ROOT.removeAllChildrenWithCleanup(true);
+                                                                }
+                                                            );
+                                                        }
+                                                    );
+                                                }
+                                            );
+                                        }
 
                                         close_wait();
                                         show_common_dialog("登录成功", "欢迎来到极速24点游戏，在这里尽情地开发您的大脑吧");
@@ -359,6 +489,8 @@ function loginInit()
 
                                         close_wait();
                                         show_common_dialog("登录成功", "欢迎来到极速24点游戏，在这里尽情地开发您的大脑吧");
+
+                                        ////////
                                     }
                                     else
                                     {

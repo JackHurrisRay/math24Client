@@ -21,11 +21,44 @@ function game_init()
     sptFrame.setPosition(4, SCREEN_SIZE.HEIGHT - 4);
     cc._NoticeficationNode.addChild(sptFrame);
 
-    var sptChance = cc.Sprite.createWithSpriteFrame(frame_info[1]);
-    sptChance.setAnchorPoint(0,0.5);
-    sptChance.setPosition(32, 128);
+    cc.callback_GOLD_FROM = null;
+
+    var sptChance =
+        //cc.Sprite.createWithSpriteFrame(frame_info[1]);
+        new uiTouchFrameSprite(
+            frame_info[1],frame_info[1],
+            function(target)
+            {
+                ////////
+                if( cc.callback_GOLD_FROM )
+                {
+                    cc.callback_GOLD_FROM();
+                    cc.callback_GOLD_FROM = null;
+                }
+
+                sptChance.stopAllActions();
+            }
+        );
+
+    cc.SET_SPTCHANCE = function(callback)
+    {
+        cc.callback_GOLD_FROM = callback;
+        var action1 = cc.Sequence.create(
+            cc.ScaleTo.create(0.125, 1.08),
+            cc.ScaleTo.create(0.125, 1.0),
+            cc.ScaleTo.create(0.125, 0.92),
+            cc.ScaleTo.create(0.125, 1.0)
+        );
+
+        var button_anim = cc.RepeatForever.create(action1);
+        sptChance.runAction(button_anim);
+    };
+
+    sptChance.setAnchorPoint(0.5,0.5);
+    sptChance.setPosition(32 + 90, 128);
     sptFrame.addChild(sptChance);
 
+    ////////
     var labelChance = cc.LabelTTF.create("0", FONT_NAME.FONT_HEITI, 72 );
     labelChance.setScale(1.5);
     labelChance.setAnchorPoint(0,0.5);
@@ -39,13 +72,25 @@ function game_init()
         {
             ////////
             show_common_dialog("智慧星", "您在查看游戏答案时或者选择竞速模式下，都会消耗您的智慧星。不过，每天您的智慧星都会加满哟，开动您的大脑吧^_^");
+            button_info.stopAllActions();
         }
     );
 
-    button_info.setAnchorPoint(1.0, 0.5);
-    button_info.setPosition(768 - 32, 128);
+    button_info.setAnchorPoint(0.5, 0.5);
+    button_info.setPosition(768 - 32 - 80, 128);
     sptFrame.addChild(button_info);
 
+    var action1 = cc.Sequence.create(
+        cc.ScaleTo.create(0.125, 1.08),
+        cc.ScaleTo.create(0.125, 1.0),
+        cc.ScaleTo.create(0.125, 0.92),
+        cc.ScaleTo.create(0.125, 1.0)
+    );
+
+    var button_anim = cc.RepeatForever.create(action1);
+    button_info.runAction(button_anim);
+
+    ////////
     cc.SET_GOLD =
         function(GOLD,GOLD_MAX)
         {
@@ -62,6 +107,13 @@ function game_init()
 
     cc._commonWaitDlg = new waitDlg;
     cc._NoticeficationNode.addChild(cc._commonWaitDlg);
+
+
+    ////////
+    cc._TOP_ROOT = cc.Node.create();
+    cc._TOP_ROOT.setPosition(0,0);
+    cc._NoticeficationNode.addChild(cc._TOP_ROOT);
+
 
 };
 

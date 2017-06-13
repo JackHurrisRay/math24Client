@@ -5,7 +5,8 @@ var server_content =
 {
     'game':24,
     'room':"",
-    'inviter':""
+    'inviter':"",
+    'inviter_datecheck':(new Date()).getTime()
 };
 
 function getWxContent()
