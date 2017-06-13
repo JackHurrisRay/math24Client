@@ -291,16 +291,19 @@ function createPlayersInTop(PLAYER_LIST)
     const player_count = PLAYER_LIST.length;
 
     ////////
+    const size = cc.director.getWinSize();
+
+    ////////
     var _topNode = cc._TOP_ROOT;
     _topNode.setVisible(false);
 
     var _nodeArray = [];
 
     const _imgwideflag = 128;
-    const _screen_y_flag = SCREEN_SIZE.HEIGHT / 2 - 96;
+    const _screen_y_flag = size.height / 2 - 96;
 
     const _count = 4;
-    const _screen_width_flag = SCREEN_SIZE.WIDTH / _count;
+    const _screen_width_flag = size.width / _count;
 
     for( var i=0; i<_count; i++ )
     {

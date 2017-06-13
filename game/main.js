@@ -71,7 +71,21 @@ function game_init()
         function(target)
         {
             ////////
-            show_common_dialog("智慧星", "您在查看游戏答案时或者选择竞速模式下，都会消耗您的智慧星。不过，每天您的智慧星都会加满哟，开动您的大脑吧^_^");
+            const size = cc.director.getWinSize();
+
+            var _frame = cc.spriteFrameCache.getSpriteFrame("info_back_ex.png");
+            var _spt   = cc.Sprite.createWithSpriteFrame(_frame);
+            _spt.setAnchorPoint(0.5, 1.0);
+            _spt.setPosition(size.width/2, size.height);
+            cc._TOP_ROOT.addChild(_spt);
+
+            show_common_dialog("智慧星", "参考答案或竞速模式都会消耗智慧星。不过第二天智慧星会加满哟，积极分享也有机会获取额外的智慧星哟。",
+                function()
+                {
+                    cc._TOP_ROOT.removeAllChildrenWithCleanup(true);
+                }
+            );
+
             button_info.stopAllActions();
         }
     );
