@@ -178,31 +178,39 @@ var sceneMain = cc.Scene.extend(
             _spttop1.setVisible(false);
             _spttop2.setVisible(false);
 
-            setTimeout(
+            ////////
+            var callback_after_init =
                 function()
                 {
-                    request_competition_top(
-                        function(data)
+                    setTimeout(
+                        function()
                         {
-                            if( data && data.status == 0 && data.top_result )
-                            {
-                                labeltop1.setString("全服最强大脑 第" + data.top_result[0].toString() + "名");
-                                labeltop2.setString("全服最强智商 第" + data.top_result[2].toString() + "名");
+                            request_competition_top(
+                                function(data)
+                                {
+                                    if( data && data.status == 0 && data.top_result )
+                                    {
+                                        labeltop1.setString("全服最强大脑 第" + data.top_result[0].toString() + "名");
+                                        labeltop2.setString("全服最强智商 第" + data.top_result[2].toString() + "名");
 
-                                _spttop1.setVisible(true);
-                                _spttop2.setVisible(true);
+                                        _spttop1.setVisible(true);
+                                        _spttop2.setVisible(true);
 
-                                _spttop1.runAction(cc.FadeIn.create(3.0, 255));
-                                _spttop2.runAction(cc.FadeIn.create(3.0, 255));
+                                        _spttop1.runAction(cc.FadeIn.create(3.0, 255));
+                                        _spttop2.runAction(cc.FadeIn.create(3.0, 255));
 
-                                labeltop1.runAction(cc.FadeIn.create(6.0, 255));
-                                labeltop2.runAction(cc.FadeIn.create(6.0, 255));
-                            }
-                        }
+                                        labeltop1.runAction(cc.FadeIn.create(6.0, 255));
+                                        labeltop2.runAction(cc.FadeIn.create(6.0, 255));
+                                    }
+                                }
+                            );
+                        },
+                        1000
                     );
-                },
-                5000
-            );
+                };
+
+            loginInit(callback_after_init);
+
         },
         setSelfImg:function(url)
         {

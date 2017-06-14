@@ -369,7 +369,7 @@ function createPlayersInTop(PLAYER_LIST)
 }
 
 ////////
-function loginInit()
+function loginInit(callback_after_init)
 {
     show_wait();
 
@@ -447,7 +447,15 @@ function loginInit()
                                         }
 
                                         close_wait();
-                                        show_common_dialog("登录成功", "欢迎来到极速24点游戏，在这里尽情地开发您的大脑吧");
+                                        show_common_dialog("登录成功", "欢迎来到极速24点游戏，在这里尽情地开发您的大脑吧",
+                                            function()
+                                            {
+                                                if( callback_after_init )
+                                                {
+                                                    callback_after_init();
+                                                }
+                                            }
+                                        );
 
                                         ////////
                                         TDGA.Account(
@@ -486,7 +494,7 @@ function loginInit()
     }
     else
     {
-        ///*
+        /*
         request_Login("18302079187", "password",
             function(res)
             {
@@ -532,7 +540,7 @@ function loginInit()
             }
         );
 
-        //*/
+        */
 
     }
 

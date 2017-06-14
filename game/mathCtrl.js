@@ -80,6 +80,7 @@ var math24Controller =
         return instance;
     };
 
+/*
 const MATH24_TABLE = [
     {"parament":[1,1,1,8],"result":"(1+1+1)*8"}
     ,
@@ -1212,3 +1213,4 @@ const MATH24_TABLE = [
     {"parament":[8,8,8,10],"result":"8-8*(8-10)"}
     ,
 ];
+*/

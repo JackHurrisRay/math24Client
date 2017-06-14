@@ -272,9 +272,6 @@ window.onload = function(){
             //game start
             cc.director.runScene(new sceneMain());
 
-            ////////
-            loginInit();
-
             return;
         }, this);
     };
