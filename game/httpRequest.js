@@ -447,15 +447,20 @@ function loginInit(callback_after_init)
                                         }
 
                                         close_wait();
-                                        show_common_dialog("登录成功", "欢迎来到极速24点游戏，在这里尽情地开发您的大脑吧",
-                                            function()
-                                            {
-                                                if( callback_after_init )
+
+                                        if( !cc.IS_CONN )
+                                        {
+                                            cc.IS_CONN = true;
+                                            show_common_dialog("登录成功", "欢迎来到极速24点游戏，在这里尽情地开发您的大脑吧",
+                                                function()
                                                 {
-                                                    callback_after_init();
+                                                    if( callback_after_init )
+                                                    {
+                                                        callback_after_init();
+                                                    }
                                                 }
-                                            }
-                                        );
+                                            );
+                                        }
 
                                         ////////
                                         TDGA.Account(

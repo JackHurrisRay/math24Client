@@ -45,6 +45,14 @@ var commonDlg =
             this._label_info.setPosition(SCREEN_SIZE.WIDTH/2, SCREEN_SIZE.HEIGHT - 340);
             this.BACK_GROUND.addChild(this._label_info);
 
+            ////////
+            var label_tip = cc.LabelTTF.create("触摸屏幕即可关闭", FONT_NAME.FONT_SKETCHFLOW_PRINT, 24);
+            label_tip.setColor(cc.color(255,255,100));
+            label_tip.setHorizontalAlignment(cc.TEXT_ALIGNMENT_RIGHT);
+            label_tip.setAnchorPoint(1.0, 1.0);
+            label_tip.setPosition(SCREEN_SIZE.WIDTH - 16, SCREEN_SIZE.HEIGHT - 16);
+            this.BACK_GROUND.addChild(label_tip);
+
             ////
             this.setVisible(false);
         },
