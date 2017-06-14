@@ -5,6 +5,16 @@ var DEVICE_DPR = window.devicePixelRatio;
 const KEY_CTRL_NUMBER   = "CTRL_NUMBER";
 const KEY_CTRL_OPERATOR = "CTRL_OPERATOR";
 
+const LEVEL_SCORE =
+{
+    //large to little
+    v0:[45, 60, 80, 100, 140, 180, 240, 300, 360],
+    v1:[2, 4, 8, 12, 16, 20, 24, 30, 36],
+    v2:[2, 4, 8, 12, 16, 20, 24, 30, 36],
+    v3:[10, 20, 40, 80, 120, 160, 200, 240, 320],
+    v4:[4, 8, 16, 24, 32, 48, 64, 96, 128],
+};
+
 function getTimeMSecond()
 {
     var _date = new Date();

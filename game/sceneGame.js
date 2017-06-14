@@ -577,45 +577,136 @@ var sceneGame = cc.Scene.extend(
             );
 
             ////////
+            var _frame_check_result =
+                [
+                    cc.spriteFrameCache.getSpriteFrame("check_10.png"),
+                    cc.spriteFrameCache.getSpriteFrame("check_9.png"),
+                    cc.spriteFrameCache.getSpriteFrame("check_8.png"),
+                    cc.spriteFrameCache.getSpriteFrame("check_7.png"),
+                    cc.spriteFrameCache.getSpriteFrame("check_6.png"),
+                    cc.spriteFrameCache.getSpriteFrame("check_5.png"),
+                    cc.spriteFrameCache.getSpriteFrame("check_4.png"),
+                    cc.spriteFrameCache.getSpriteFrame("check_3.png"),
+                    cc.spriteFrameCache.getSpriteFrame("check_2.png"),
+                    cc.spriteFrameCache.getSpriteFrame("check_1.png"),
+                ];
+
+            var _getLevelFromNumber =
+                function(number, v)
+                {
+                    var _index = 9;
+
+                    for( var i=0; i<10; i++ )
+                    {
+                        const check_number = v[i];
+                        if( number * 1.0 < check_number * 1000.0 )
+                        {
+                            _index = i;
+                            break;
+                        }
+                    }
+
+                    return _index;
+                };
+
             var resultNode = cc.Node.create();
             resultNode.setPosition(size.width/2, size.height/2);
             resultNode.setVisible(false);
             cc._NoticeficationNode.addChild(resultNode);
 
             var resultArray = [];
+            var backArray   = [];
 
-            var _result1 = cc.LabelTTF.create("总耗时:",FONT_NAME.FONT_HEITI, 32);
-            _result1.setColor(cc.color(255,255,100));
-            _result1.textAlign = cc.TEXT_ALIGNMENT_LEFT;
-            _result1.setAnchorPoint(0, 1.0);
-            _result1.setPosition(-128, -64);
-            resultArray.push(_result1);
-            resultNode.addChild(_result1);
+            const resultTitle = ["总耗时:", "平均值:","采样值:","方差值:","均方差:"];
 
-            const resultTitle = ["平均值:","采样值:","方差值:","均方差:"];
-
-            for( var i=0; i<4; i++ )
+            for( var i=0; i<5; i++ )
             {
+                var _backresult = cc.Sprite.createWithSpriteFrame(_frame_check_result[9]);
+                _backresult.setScale(0.95);
+                _backresult.setAnchorPoint(0.5, 1.0);
+                _backresult.setPosition(0, -8-i*96);
+                resultNode.addChild(_backresult);
+                backArray.push(_backresult);
+
                 var _result = cc.LabelTTF.create(resultTitle[i],FONT_NAME.FONT_HEITI, 32);
                 _result.textAlign = cc.TEXT_ALIGNMENT_LEFT;
-                _result.setAnchorPoint(0, 1.0);
-                _result.setPosition(-128, -128-64*i);
+                _result.setAnchorPoint(0, 0);
+                _result.setPosition(18.0, 12.0);
+                _backresult.addChild(_result);
                 resultArray.push(_result);
-                resultNode.addChild(_result);
             }
+
+            var _transforSecToString =
+                function(number)
+                {
+                    var _n1 = number/10;
+                    var _n2 = Math.floor(_n1);
+                    var _n3 = _n2 / 100;
+
+                    var _str = _n3.toString();
+                    return _str;
+                }
 
             this.showResult =
                 function()
                 {
-                    resultArray[0].setString("总耗时:" + (SELF.TOTAL_TIME/1000).toString() + "秒" );
-                    resultArray[1].setString(resultTitle[0] + (SELF.computerAv1()/1000).toString() + "秒" );
-                    resultArray[2].setString(resultTitle[1] + (SELF.computerAv2()/1000).toString() + "秒" );
-                    resultArray[3].setString(resultTitle[2] + (SELF.computerAv3()/1000).toString() + "秒" );
-                    resultArray[4].setString(resultTitle[3] + (SELF.computerAv4()/1000).toString() + "秒" );
+                    ////////
+                    const _timeResult =
+                        [
+                            SELF.TOTAL_TIME,
+                            SELF.computerAv1(),
+                            SELF.computerAv2(),
+                            SELF.computerAv3(),
+                            SELF.computerAv4(),
+                        ];
+
+                    ////////
+                    var _backindexArray =
+                        [
+                            _getLevelFromNumber(_timeResult[0], LEVEL_SCORE.v0),
+                            _getLevelFromNumber(_timeResult[1], LEVEL_SCORE.v1),
+                            _getLevelFromNumber(_timeResult[2], LEVEL_SCORE.v2),
+                            _getLevelFromNumber(_timeResult[3], LEVEL_SCORE.v3),
+                            _getLevelFromNumber(_timeResult[4], LEVEL_SCORE.v4),
+                        ];
+
+                    ////////
+                    var _totalindex = 0;
+                    for( var i in _backindexArray )
+                    {
+                        ////////
+                        const index = _backindexArray[i];
+                        backArray[i].initWithSpriteFrame(_frame_check_result[index]);
+
+                        _totalindex += index;
+                    }
+
+                    _totalindex = _totalindex / _backindexArray.length;
+                    _totalindex = Math.floor(_totalindex + 0.5);
+
+                    ////////
+                    for( var i in  resultArray )
+                    {
+                        resultArray[i].setString(resultTitle[i] + _transforSecToString(_timeResult[i]) + "秒" );
+                    }
+
+                    //total result
+                    var _totalSpt = cc.Sprite.createWithSpriteFrame(_frame_check_result[_totalindex]);
+                    _totalSpt.setScale(0.95);
+                    _totalSpt.setPosition(0, 128 + 128 + 56);
+                    resultNode.addChild(_totalSpt);
+
+                    var _totalResult = cc.LabelTTF.create("总评价",FONT_NAME.FONT_HEITI, 36);
+                    _totalResult.textAlign = cc.TEXT_ALIGNMENT_LEFT;
+                    _totalResult.setAnchorPoint(0, 0);
+                    _totalResult.setPosition(18.0, 12.0);
+                    _totalSpt.addChild(_totalResult);
 
                     resultNode.setVisible(true);
                     return resultNode;
                 };
+
+            //this.showResult();
 
             ////////
             //this.randStart();

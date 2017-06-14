@@ -350,7 +350,7 @@ function createPlayersInTop(PLAYER_LIST)
             var action1 = cc.Sequence.create(
                 cc.ScaleTo.create(0.125, 1.0 + 0.01 + Math.random() * 0.05),
                 cc.ScaleTo.create(0.125, 1.0),
-                cc.ScaleTo.create(0.125, 1.0 - 0.01 - Math.random() * 0.05),
+                cc.ScaleTo.create(0.125, 1.0 - 0.01 - Math.random() * 0.25),
                 cc.ScaleTo.create(0.125, 1.0)
             );
 
@@ -486,7 +486,7 @@ function loginInit()
     }
     else
     {
-        /*
+        ///*
         request_Login("18302079187", "password",
             function(res)
             {
@@ -532,7 +532,7 @@ function loginInit()
             }
         );
 
-        */
+        //*/
 
     }
 
