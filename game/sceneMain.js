@@ -57,7 +57,7 @@ var sceneMain = cc.Scene.extend(
 
             _buttonMain_1.initWithSpriteFrame(_frameButton[0]);
             _buttonMain_1.setAnchorPoint(0.0, 0.0);
-            _buttonMain_1.setPosition(8.0, 128.0);
+            _buttonMain_1.setPosition(8.0, 128.0 + 48.0);
             _back.addChild(_buttonMain_1);
 
             var _buttonMain_2 = new uiTouchSprite(
@@ -111,7 +111,7 @@ var sceneMain = cc.Scene.extend(
 
             _buttonMain_2.initWithSpriteFrame(_frameButton[1]);
             _buttonMain_2.setAnchorPoint(1.0, 0.0);
-            _buttonMain_2.setPosition(SCREEN_SIZE.WIDTH - 8.0, 128.0 - 64.0);
+            _buttonMain_2.setPosition(SCREEN_SIZE.WIDTH - 8.0, 128.0 - 64.0 + 48.0);
             _back.addChild(_buttonMain_2);
 
             ////////

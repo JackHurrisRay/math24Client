@@ -461,6 +461,13 @@ function loginInit(callback_after_init)
                                                 }
                                             );
                                         }
+                                        else
+                                        {
+                                            if( callback_after_init )
+                                            {
+                                                callback_after_init();
+                                            }
+                                        }
 
                                         ////////
                                         TDGA.Account(
