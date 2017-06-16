@@ -2,6 +2,8 @@
  * Created by Jack.L on 2017/5/30.
  */
 ////////
+const CONTENT_ID = "1497106073695715";
+
 const request_settings =
 {
     "async": true,
@@ -62,7 +64,7 @@ function request_Login(id,pwd,callback)
 var OPTIONS = {};
 function request_Content(callback)
 {
-    const _msg = {content_id:"1497106073695715"};
+    const _msg = {content_id:CONTENT_ID};
 
     var settings = request_settings;
     settings.url = "http://huyukongjian.cn:1021/trade/applicate_content";
@@ -266,6 +268,29 @@ function request_add_gold_from(callback)
         console.log(response);
 
         ////parse response
+        if( callback )
+        {
+            callback(JSON.parse( response ));
+        }
+    });
+}
+
+function request_adv_touch(advertisement, callback)
+{
+    const _msg =
+    {
+        "content_id":CONTENT_ID,
+        "name":advertisement
+    };
+
+    var settings = request_settings;
+    settings.method = "PUT";
+    settings.url = "http://huyukongjian.cn:1021/sys/advertisement";
+    settings.data = JSON.stringify(_msg);
+
+    $.ajax(settings).done(function (response) {
+        console.log(response);
+
         if( callback )
         {
             callback(JSON.parse( response ));

@@ -461,6 +461,7 @@ var sceneGame = cc.Scene.extend(
 
                     if( PlayerData.GOLD == 0 )
                     {
+                        TDEventTouch({"参考答案":"智慧星不足"});
                         show_common_dialog("智慧星不足","您的智慧星不足，请开动脑筋解答吧，帮不了你了哟");
                         return;
                     }
@@ -483,6 +484,7 @@ var sceneGame = cc.Scene.extend(
                                         PlayerData.GOLD = data.GOLD;
                                         PlayerData.refreshGoldUI();
 
+                                        TDEventTouch({"参考答案":"耗费智慧星"});
                                     }
                                     else
                                     {

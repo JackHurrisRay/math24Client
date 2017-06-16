@@ -54,6 +54,7 @@ const res_javascript =
         "game/sceneMain.js",
         "game/sceneGame.js",
         "game/sceneCompetition.js",
+        "game/advSystem.js",
 
     ];
 

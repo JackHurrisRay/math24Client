@@ -1,6 +1,60 @@
 /**
  * Created by Jack on 2017/3/25.
  */
+
+////////
+function TDRecord()
+{
+    const item_name = "智慧星";
+    TDGA.onItemPurchase({
+        item :item_name,
+        itemNumber : 1,
+        priceInVirtualCurrency : data.priceInVirtualCurrency
+    });
+
+    TDGA.onItemUse({
+        item :item_name,
+        itemNumber : 1
+    });
+};
+
+const MISSION_NAME =
+    [
+        "普通练习",
+        "竞速比赛"
+    ];
+
+var _MISSION_INDEX = 0;
+
+function TDMissionBegin(index)
+{
+    _MISSION_INDEX = index;
+    TDGA.onMissionBegin(MISSION_NAME[_MISSION_INDEX]);
+}
+
+function TDMissionResult(success, cause)
+{
+    if( success )
+    {
+        TDGA.onMissionCompleted(MISSION_NAME[_MISSION_INDEX]);
+    }
+    else
+    {
+        TDGA.onMissionFailed(MISSION_NAME[_MISSION_INDEX], cause?cause.toString():"unknown");
+    }
+}
+
+function TDEventTouch(data)
+{
+    TDGA.onEvent("点击事件",data);
+}
+
+function TDEventAdvertisement(advertise_name)
+{
+    TDGA.onEvent("广告点击", {"广告内容":advertise_name});
+}
+
+////////
 var GAME_TIMER = new GameTimer();
 function game_init()
 {
@@ -71,20 +125,10 @@ function game_init()
         function(target)
         {
             ////////
-            /*
-            const size = cc.director.getWinSize();
-
-            var _frame = cc.spriteFrameCache.getSpriteFrame("info_back_ex.png");
-            var _spt   = cc.Sprite.createWithSpriteFrame(_frame);
-            _spt.setAnchorPoint(0.5, 1.0);
-            _spt.setPosition(size.width/2, size.height);
-            cc._TOP_ROOT.addChild(_spt);
-            */
-
             show_common_dialog("智慧星", "参考答案或竞速模式都会消耗智慧星，不过第二天智慧星一定会加满哟，积极分享给好友，让好友参赛竞速排名也可以获取额外的智慧星哟。",
                 function()
                 {
-                    //cc._TOP_ROOT.removeAllChildrenWithCleanup(true);
+                    TDEventTouch({"标题栏":"查看智慧星内容"});
                 }
             );
 
@@ -154,47 +198,6 @@ function show_wait()
 function close_wait()
 {
     cc._commonWaitDlg.close();
-}
-
-function TDRecord()
-{
-    const item_name = "智慧星";
-    TDGA.onItemPurchase({
-        item :item_name,
-        itemNumber : 1,
-        priceInVirtualCurrency : data.priceInVirtualCurrency
-    });
-
-    TDGA.onItemUse({
-        item :item_name,
-        itemNumber : 1
-    });
-};
-
-const MISSION_NAME =
-    [
-        "普通练习",
-        "竞速比赛"
-    ];
-
-var _MISSION_INDEX = 0;
-
-function TDMissionBegin(index)
-{
-    _MISSION_INDEX = index;
-    TDGA.onMissionBegin(MISSION_NAME[_MISSION_INDEX]);
-}
-
-function TDMissionResult(success, cause)
-{
-    if( success )
-    {
-        TDGA.onMissionCompleted(MISSION_NAME[_MISSION_INDEX]);
-    }
-    else
-    {
-        TDGA.onMissionFailed(MISSION_NAME[_MISSION_INDEX], cause?cause.toString():"unknown");
-    }
 }
 
 function initShader()
