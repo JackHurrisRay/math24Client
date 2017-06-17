@@ -3,14 +3,15 @@
  */
 
 var AdvertisementSys =
-    ( function(){
+    function(){
 
+        ////////
         var o = {};
 
         ////////
         var index = 0;
         var winW = $(window).width();
-        var h = winW * (96/640) - 16;
+        var h = winW * (96/640);
 
         o.init = function(data){
             var len = data.length;
@@ -33,7 +34,8 @@ var AdvertisementSys =
                         {
                             if( data.error_code == 0 )
                             {
-                                window.open(_href);
+                                //window.open(_href);
+                                location.href = _href
                             }
                         }
                     );
@@ -68,10 +70,11 @@ var AdvertisementSys =
                     index = 0;
                 }
                 setTimeout(function(){
+                    $('#layerImg').remove();
                     o.init(data)
                 },600);
             },_time);
         }
 
         return o;
-    })();
+    };

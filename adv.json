@@ -1,0 +1,17 @@
+{
+    "advertisement":
+    [
+      {
+        'name':'北京怡人教育咨询有限公司-西班牙移民',
+        'src':'http://5941game.oss-cn-qingdao.aliyuncs.com/advertisement/beijingyirenjiaoyu_xibanyaliuxue.png',
+        'href':'http://www.yrcll.top/',
+        'time':30000
+      },
+      {
+        'name':'足球游戏',
+        'src':'http://5941game.oss-cn-qingdao.aliyuncs.com/advertisement/zuqiuyouxi.jpg',
+        'href':'http://act.xianyugame.com/Zuijiazhenrong/Download_Ios6_10?ctype=mtzy',
+        'time':30000
+      }
+    ]
+}

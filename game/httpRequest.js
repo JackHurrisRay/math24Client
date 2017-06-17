@@ -531,7 +531,7 @@ function loginInit(callback_after_init)
     }
     else
     {
-        /*
+        ///*
         request_Login("18302079187", "password",
             function(res)
             {
@@ -577,7 +577,7 @@ function loginInit(callback_after_init)
             }
         );
 
-        */
+        //*/
 
     }
 
